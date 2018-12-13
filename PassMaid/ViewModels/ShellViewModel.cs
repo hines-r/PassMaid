@@ -84,13 +84,17 @@ namespace PassMaid.ViewModels
 
         private void ExecuteEncrypt(object o)
         {
-            if (Password != null)
+            if (!String.IsNullOrEmpty(Password))
             {
                 ICryptoTransform transform = aes.CreateEncryptor();
                 byte[] encryptedBytes = transform.TransformFinalBlock(ASCIIEncoding.ASCII.GetBytes(Password), 0, Password.Length);
                 string encryptedText = Convert.ToBase64String(encryptedBytes);
 
                 Cipher = encryptedText;
+            }
+            else
+            {
+                Cipher = "";
             }
         }
 
