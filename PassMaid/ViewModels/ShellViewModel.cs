@@ -17,6 +17,12 @@ namespace PassMaid.ViewModels
         private string _genPassword;
         private string _cipher;
 
+        private int _lengthOfPassword;
+        private bool _includeLowercase;
+        private bool _includeUppercase;
+        private bool _includeNumeric;
+        private bool _includeSpecial;
+
         private AesCryptoServiceProvider aes;
 
         public ShellViewModel()
@@ -89,6 +95,56 @@ namespace PassMaid.ViewModels
             {
                 _cipher = value;
                 NotifyOfPropertyChange(() => Cipher);
+            }
+        }
+
+        public int LengthOfPassword
+        {
+            get { return _lengthOfPassword; }
+            set
+            {
+                _lengthOfPassword = value;
+                NotifyOfPropertyChange(() => LengthOfPassword);
+            }
+        }
+
+        public bool IncludeLowercase
+        {
+            get { return _includeLowercase; }
+            set
+            {
+                _includeLowercase = value;
+                NotifyOfPropertyChange(() => IncludeLowercase);
+            }
+        }
+
+        public bool IncludeUppercase
+        {
+            get { return _includeUppercase; }
+            set
+            {
+                _includeUppercase = value;
+                NotifyOfPropertyChange(() => IncludeUppercase);
+            }
+        }
+
+        public bool IncludeNumeric
+        {
+            get { return _includeNumeric; }
+            set
+            {
+                _includeNumeric = value;
+                NotifyOfPropertyChange(() => IncludeNumeric);
+            }
+        }
+
+        public bool IncludeSpecial
+        {
+            get { return _includeSpecial; }
+            set
+            {
+                _includeSpecial = value;
+                NotifyOfPropertyChange(() => IncludeSpecial);
             }
         }
 
