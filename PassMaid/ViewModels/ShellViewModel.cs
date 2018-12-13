@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 using System.Windows.Input;
+using PassMaid.Utils;
 
 namespace PassMaid.ViewModels
 {
@@ -13,6 +14,7 @@ namespace PassMaid.ViewModels
         private string _name;
         private string _website;
         private string _password;
+        private string _genPassword;
         private string _cipher;
 
         private AesCryptoServiceProvider aes;
@@ -70,6 +72,16 @@ namespace PassMaid.ViewModels
             get { return Password.Length; }
         }
 
+        public string GenPassword
+        {
+            get { return _genPassword; }
+            set
+            {
+                _genPassword = value;
+                NotifyOfPropertyChange(() => GenPassword);
+            }
+        }
+
         public string Cipher
         {
             get { return _cipher; }
@@ -78,6 +90,13 @@ namespace PassMaid.ViewModels
                 _cipher = value;
                 NotifyOfPropertyChange(() => Cipher);
             }
+        }
+
+        public ICommand GeneratePasswordCommand => new RelayCommand(ExecuteGeneratePassword);
+
+        public void ExecuteGeneratePassword(object o)
+        {
+            GenPassword = PasswordGenerator.GeneratePassword(32, true, true, true, true);
         }
 
         public ICommand EncryptCommand => new RelayCommand(ExecuteEncrypt);

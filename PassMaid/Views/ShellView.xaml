@@ -16,16 +16,31 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
+
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+
+            <RowDefinition Height="auto"/>
+
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        
+        <!-- New Top -->
+        <TextBlock Text="Password Generator:" Grid.Row="0" Grid.Column="0" Margin="5"/>
+        
+        <TextBox Text="{Binding GenPassword, Mode=TwoWay}" Grid.Row="1" Grid.Column="0" Margin="5 0"/>
+
+        <Button Content="Generate" Grid.Row="1" Grid.Column="1" Margin="5 0"
+                Command="{Binding GeneratePasswordCommand}"/>
 
         <!-- Top Row -->
-        <TextBlock Text="Password:" Grid.Row="0" Grid.Column="0" Margin="5"/>
+        <TextBlock Text="Password:" Grid.Row="2" Grid.Column="0" Margin="5"/>
 
-        <TextBox Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="0" Margin="5 0">
+        <TextBox Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="0" Margin="5 0">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="KeyUp">
                     <i:InvokeCommandAction Command="{Binding EncryptCommand}"/>
@@ -33,15 +48,15 @@
             </i:Interaction.Triggers>
         </TextBox>
         
-        <Button Content="Encrypt" Grid.Row="1" Grid.Column="1" Height="23" Width="65" Margin="5 0"
+        <Button Content="Encrypt" Grid.Row="3" Grid.Column="1" Height="23" Width="65" Margin="5 0"
                 Command="{Binding EncryptCommand}"/>
 
         <!-- Bottom Row -->
-        <TextBlock Text="Encrypted Password:" Grid.Row="2" Grid.Column="0" Margin="5"/>
+        <TextBlock Text="Encrypted Password:" Grid.Row="4" Grid.Column="0" Margin="5"/>
 
-        <TextBox Text="{Binding Cipher, Mode=TwoWay}" Grid.Row="3" Grid.Column="0" Margin="5 0 5 5" TextWrapping ="Wrap" VerticalScrollBarVisibility="Auto"/>
+        <TextBox Text="{Binding Cipher, Mode=TwoWay}" Grid.Row="5" Grid.Column="0" Margin="5 0 5 5" TextWrapping ="Wrap" VerticalScrollBarVisibility="Auto"/>
 
-        <Button Content="Decrypt" Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Height="23" Width="65" Margin="5 0"
+        <Button Content="Decrypt" Grid.Row="5" Grid.Column="1" VerticalAlignment="Top" Height="23" Width="65" Margin="5 0"
                 Command="{Binding DecryptCommand}"/>
     </Grid>
 </Window>

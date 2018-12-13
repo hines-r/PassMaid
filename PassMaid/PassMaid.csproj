@@ -76,6 +76,7 @@
     </Compile>
     <Compile Include="Models\PasswordModel.cs" />
     <Compile Include="RelayCommand.cs" />
+    <Compile Include="Utils\PasswordGenerator.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
