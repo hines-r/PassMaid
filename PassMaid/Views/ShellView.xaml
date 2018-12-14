@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         FontSize="14"
         WindowStartupLocation="CenterScreen"
-        Title="PassMaid" Height="250" Width="500">
+        Title="PassMaid" Height="300" Width="500">
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -16,45 +16,86 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
 
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
-        <!-- New Top -->
+        <!-- Generator -->
         <TextBlock Text="Password Generator:" Grid.Row="0" Grid.Column="0" Margin="5"/>
         
         <TextBox Text="{Binding GenPassword, Mode=TwoWay}" Grid.Row="1" Grid.Column="0" Margin="5 0"/>
 
         <Button Content="Generate" Grid.Row="1" Grid.Column="1" Margin="5 0"
                 Command="{Binding GeneratePasswordCommand}"/>
+        
+        
+        <!-- Options -->
+        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="0 0 0 15">
 
-        <!-- Top Row -->
-        <TextBlock Text="Password:" Grid.Row="2" Grid.Column="0" Margin="5"/>
+            <!-- Length -->
+            <TextBlock Text="Length:" FontSize="12" VerticalAlignment="Center" Margin="5"/>
 
-        <TextBox Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="0" Margin="5 0">
+            <TextBox Text="32" Width="30" Margin="0 5 10 5"/>
+
+            <Separator Height="18" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
+
+            <!-- A-Z -->
+            <TextBlock Text="A-Z" FontSize="12" VerticalAlignment="Center" Margin="5"/>
+
+            <CheckBox Margin="0 5 10 5" IsChecked="True" VerticalAlignment="Center"/>
+
+            <Separator Height="18" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
+
+            <!-- a-z -->
+            <TextBlock Text="a-z" FontSize="12" VerticalAlignment="Center" Margin="5"/>
+
+            <CheckBox Margin="0 5 10 5" IsChecked="True" VerticalAlignment="Center"/>
+
+            <Separator Height="18" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
+
+            <!-- 0-9 -->
+            <TextBlock Text="0-9" FontSize="12" VerticalAlignment="Center" Margin="5"/>
+
+            <CheckBox Margin="0 5 10 5" IsChecked="True" VerticalAlignment="Center"/>
+
+            <Separator Height="18" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
+
+            <!-- Special -->
+            <TextBlock Text="!@#$%^&amp;*" FontSize="12" VerticalAlignment="Center" Margin="5"/>
+
+            <CheckBox Margin="0 5 10 5" IsChecked="True" VerticalAlignment="Center"/>
+
+        </StackPanel>
+        
+ 
+        <!-- Password Field -->
+        <TextBlock Text="Password:" Grid.Row="3" Grid.Column="0" Margin="5"/>
+
+        <TextBox Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="0" Margin="5 0">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="KeyUp">
                     <i:InvokeCommandAction Command="{Binding EncryptCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </TextBox>
-        
-        <Button Content="Encrypt" Grid.Row="3" Grid.Column="1" Height="23" Width="65" Margin="5 0"
+
+        <Button Content="Encrypt" Grid.Row="4" Grid.Column="1" Height="23" Width="65" Margin="5 0"
                 Command="{Binding EncryptCommand}"/>
+        
 
-        <!-- Bottom Row -->
-        <TextBlock Text="Encrypted Password:" Grid.Row="4" Grid.Column="0" Margin="5"/>
+        <!-- Encrypted Password Field -->
+        <TextBlock Text="Encrypted Password:" Grid.Row="5" Grid.Column="0" Margin="5"/>
 
-        <TextBox Text="{Binding Cipher, Mode=TwoWay}" Grid.Row="5" Grid.Column="0" Margin="5 0 5 5" TextWrapping ="Wrap" VerticalScrollBarVisibility="Auto"/>
+        <TextBox Text="{Binding Cipher, Mode=TwoWay}" Grid.Row="6" Grid.Column="0" Margin="5 0 5 5" TextWrapping ="Wrap" VerticalScrollBarVisibility="Auto"/>
 
-        <Button Content="Decrypt" Grid.Row="5" Grid.Column="1" VerticalAlignment="Top" Height="23" Width="65" Margin="5 0"
+        <Button Content="Decrypt" Grid.Row="6" Grid.Column="1" VerticalAlignment="Top" Height="23" Width="65" Margin="5 0"
                 Command="{Binding DecryptCommand}"/>
     </Grid>
 </Window>
