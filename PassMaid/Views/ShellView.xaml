@@ -42,35 +42,35 @@
             <!-- Length -->
             <TextBlock Text="Length:" FontSize="12" VerticalAlignment="Center" Margin="5"/>
 
-            <TextBox Text="32" Width="30" Margin="0 5 10 5"/>
+            <TextBox Text="{Binding LengthOfPassword, Mode=TwoWay}" Width="30" Margin="0 5 10 5"/>
 
             <Separator Height="18" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
 
             <!-- A-Z -->
             <TextBlock Text="A-Z" FontSize="12" VerticalAlignment="Center" Margin="5"/>
 
-            <CheckBox Margin="0 5 10 5" IsChecked="True" VerticalAlignment="Center"/>
+            <CheckBox Margin="0 5 10 5" IsChecked="{Binding IncludeUppercase, Mode=TwoWay}" VerticalAlignment="Center"/>
 
             <Separator Height="18" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
 
             <!-- a-z -->
             <TextBlock Text="a-z" FontSize="12" VerticalAlignment="Center" Margin="5"/>
 
-            <CheckBox Margin="0 5 10 5" IsChecked="True" VerticalAlignment="Center"/>
+            <CheckBox Margin="0 5 10 5" IsChecked="{Binding IncludeLowercase, Mode=TwoWay}" VerticalAlignment="Center"/>
 
             <Separator Height="18" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
 
             <!-- 0-9 -->
             <TextBlock Text="0-9" FontSize="12" VerticalAlignment="Center" Margin="5"/>
 
-            <CheckBox Margin="0 5 10 5" IsChecked="True" VerticalAlignment="Center"/>
+            <CheckBox Margin="0 5 10 5" IsChecked="{Binding IncludeNumeric, Mode=TwoWay}" VerticalAlignment="Center"/>
 
             <Separator Height="18" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
 
             <!-- Special -->
             <TextBlock Text="!@#$%^&amp;*" FontSize="12" VerticalAlignment="Center" Margin="5"/>
 
-            <CheckBox Margin="0 5 10 5" IsChecked="True" VerticalAlignment="Center"/>
+            <CheckBox Margin="0 5 10 5" IsChecked="{Binding IncludeSpecial, Mode=TwoWay}" VerticalAlignment="Center"/>
 
         </StackPanel>
         

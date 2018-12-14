@@ -23,6 +23,12 @@ namespace PassMaid.ViewModels
         private bool _includeNumeric;
         private bool _includeSpecial;
 
+        private readonly int _defaultLength = 32;
+        private readonly bool _defaultLowercase = true;
+        private readonly bool _defaultUppercase = true;
+        private readonly bool _defaultNumeric = true;
+        private readonly bool _defaultSpecial = true;
+
         private AesCryptoServiceProvider aes;
 
         public ShellViewModel()
@@ -32,14 +38,22 @@ namespace PassMaid.ViewModels
 
         private void Init()
         {
-            aes = new AesCryptoServiceProvider();
+            aes = new AesCryptoServiceProvider
+            {
+                BlockSize = 128,
+                KeySize = 256
+            };
 
-            aes.BlockSize = 128;
-            aes.KeySize = 256;
             aes.GenerateKey();
             aes.GenerateIV();
             aes.Mode = CipherMode.CBC;
             aes.Padding = PaddingMode.PKCS7;
+
+            LengthOfPassword = _defaultLength;
+            IncludeLowercase = _defaultLowercase;
+            IncludeUppercase = _defaultUppercase;
+            IncludeNumeric = _defaultNumeric;
+            IncludeSpecial = _defaultSpecial;
         }
 
         public string Name
@@ -152,7 +166,7 @@ namespace PassMaid.ViewModels
 
         public void ExecuteGeneratePassword(object o)
         {
-            GenPassword = PasswordGenerator.GeneratePassword(32, true, true, true, true);
+            GenPassword = PasswordGenerator.GeneratePassword(LengthOfPassword, IncludeLowercase, IncludeUppercase, IncludeNumeric, IncludeSpecial);
         }
 
         public ICommand EncryptCommand => new RelayCommand(ExecuteEncrypt);
