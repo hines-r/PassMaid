@@ -46,6 +46,11 @@ namespace PassMaid.Utils
             {
                 chars += SpecialChars;
             }
+            
+            if (String.IsNullOrEmpty(chars))
+            {
+                return "You must toggle at least one character type!";
+            }
 
             StringBuilder sb = new StringBuilder();
             Random r = new Random();
