@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace PassMaid.Utils
 {
-    public class CryptoUtil
+    public static class CryptoUtil
     {
-        private AesCryptoServiceProvider aes;
+        private static AesCryptoServiceProvider aes;
 
-        public CryptoUtil()
+        static CryptoUtil()
         {
             aes = new AesCryptoServiceProvider
             {
@@ -25,7 +25,7 @@ namespace PassMaid.Utils
             aes.Padding = PaddingMode.PKCS7;
         }
 
-        public string Encrypt(string clearText)
+        public static string Encrypt(string clearText)
         {
             ICryptoTransform transform = aes.CreateEncryptor();
             byte[] encryptedBytes = transform.TransformFinalBlock(ASCIIEncoding.ASCII.GetBytes(clearText), 0, clearText.Length);
@@ -34,7 +34,7 @@ namespace PassMaid.Utils
             return encryptedText;
         }
 
-        public string Decrypt(string cipher)
+        public static string Decrypt(string cipher)
         {
             ICryptoTransform transform = aes.CreateDecryptor();
             byte[] encryptedBytes = Convert.FromBase64String(cipher);
