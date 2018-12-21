@@ -32,7 +32,7 @@ namespace PassMaid.ViewModels
         private readonly bool _defaultNumeric = true;
         private readonly bool _defaultSpecial = true;
 
-        private AesCryptoServiceProvider aes;
+        private CryptoUtil crypto;
 
         public GeneratorTabViewModel()
         {
@@ -42,16 +42,7 @@ namespace PassMaid.ViewModels
 
         private void Init()
         {
-            aes = new AesCryptoServiceProvider
-            {
-                BlockSize = 128,
-                KeySize = 256
-            };
-
-            aes.GenerateKey();
-            aes.GenerateIV();
-            aes.Mode = CipherMode.CBC;
-            aes.Padding = PaddingMode.PKCS7;
+            crypto = new CryptoUtil();
 
             LengthOfPassword = _defaultLength;
             IncludeLowercase = _defaultLowercase;
@@ -189,11 +180,8 @@ namespace PassMaid.ViewModels
         {
             if (!String.IsNullOrEmpty(Password))
             {
-                ICryptoTransform transform = aes.CreateEncryptor();
-                byte[] encryptedBytes = transform.TransformFinalBlock(ASCIIEncoding.ASCII.GetBytes(Password), 0, Password.Length);
-                string encryptedText = Convert.ToBase64String(encryptedBytes);
-
-                Cipher = encryptedText;
+                string encryptedPassword = crypto.Encrypt(Password);
+                Cipher = encryptedPassword;
             }
             else
             {
@@ -207,12 +195,8 @@ namespace PassMaid.ViewModels
         {
             if (Cipher != null)
             {
-                ICryptoTransform transform = aes.CreateDecryptor();
-                byte[] encryptedBytes = Convert.FromBase64String(Cipher);
-                byte[] decryptedBytes = transform.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
-                string decryptedText = ASCIIEncoding.ASCII.GetString(decryptedBytes);
-
-                Password = decryptedText;
+                string decryptedPassword = crypto.Decrypt(Cipher);
+                Password = decryptedPassword;
             }
         }
     }
