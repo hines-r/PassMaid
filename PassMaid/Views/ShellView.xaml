@@ -14,8 +14,8 @@
     <DockPanel>
         <TabControl ItemsSource="{Binding Tabs}" SelectedIndex="{Binding SelectedIndex}">
             <TabControl.Resources>
-                <DataTemplate DataType="{x:Type vm:VaultViewModel}">
-                    <local:VaultView/>
+                <DataTemplate DataType="{x:Type vm:VaultTabViewModel}">
+                    <local:VaultTabView/>
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type vm:GeneratorTabViewModel}">

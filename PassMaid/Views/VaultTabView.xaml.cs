@@ -18,9 +18,9 @@ namespace PassMaid.Views
     /// <summary>
     /// Interaction logic for VaultView.xaml
     /// </summary>
-    public partial class VaultView : UserControl
+    public partial class VaultTabView : UserControl
     {
-        public VaultView()
+        public VaultTabView()
         {
             InitializeComponent();
         }

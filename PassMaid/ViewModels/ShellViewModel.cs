@@ -22,7 +22,7 @@ namespace PassMaid.ViewModels
         {
             Tabs = new BindableCollection<ITab>
             {
-                new VaultViewModel(),
+                new VaultTabViewModel(),
                 new GeneratorTabViewModel()
             };
 

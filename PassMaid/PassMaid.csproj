@@ -82,7 +82,7 @@
     <Compile Include="ViewModels\GeneratorTabViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
-    <Compile Include="ViewModels\VaultViewModel.cs" />
+    <Compile Include="ViewModels\VaultTabViewModel.cs" />
     <Compile Include="Views\GeneratorTabView.xaml.cs">
       <DependentUpon>GeneratorTabView.xaml</DependentUpon>
     </Compile>
@@ -92,8 +92,8 @@
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VaultView.xaml.cs">
-      <DependentUpon>VaultView.xaml</DependentUpon>
+    <Compile Include="Views\VaultTabView.xaml.cs">
+      <DependentUpon>VaultTabView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -138,7 +138,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VaultView.xaml">
+    <Page Include="Views\VaultTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

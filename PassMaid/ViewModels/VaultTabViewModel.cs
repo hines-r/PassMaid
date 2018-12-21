@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace PassMaid.ViewModels
 {
-    public class VaultViewModel : Tab
+    public class VaultTabViewModel : Tab
     {
         private const string _TabName = "Vault";
 
-        public VaultViewModel()
+        public VaultTabViewModel()
         {
             TabName = _TabName;
         }
