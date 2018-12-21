@@ -8,9 +8,11 @@ namespace PassMaid.ViewModels
 {
     public class VaultViewModel : Tab
     {
+        private const string _TabName = "Vault";
+
         public VaultViewModel()
         {
-            Name = "Vault";
+            TabName = _TabName;
         }
     }
 }

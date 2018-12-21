@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Caliburn.Micro;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,11 @@ namespace PassMaid
 {
     public interface ITab
     {
-        string Name { get; set; }
+        string TabName { get; set; }
     }
 
-    public abstract class Tab : ITab
+    public abstract class Tab : Screen, ITab
     {
-        public string Name { get; set; }
+        public string TabName { get; set; }
     }
 }
