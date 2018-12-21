@@ -30,6 +30,8 @@ namespace PassMaid.ViewModels
         private readonly bool _defaultNumeric = true;
         private readonly bool _defaultSpecial = true;
 
+        private int _selectedIndex;
+
         private AesCryptoServiceProvider aes;
 
         public ShellViewModel()
@@ -55,6 +57,26 @@ namespace PassMaid.ViewModels
             IncludeUppercase = _defaultUppercase;
             IncludeNumeric = _defaultNumeric;
             IncludeSpecial = _defaultSpecial;
+
+            Tabs = new BindableCollection<ITab>
+            {
+                new VaultViewModel(),
+                new GeneratorTabViewModel()
+            };
+
+            SelectedIndex = 0; // Sets the first tab to be selected
+        }
+
+        public BindableCollection<ITab> Tabs { get; private set; }
+
+        public int SelectedIndex
+        {
+            get { return _selectedIndex; }
+            set
+            {
+                _selectedIndex = value;
+                NotifyOfPropertyChange(() => SelectedIndex);
+            }
         }
 
         public string Name
