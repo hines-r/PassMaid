@@ -9,6 +9,7 @@ namespace PassMaid.Models
     public class PasswordModel
     {
         public string Name { get; set; }
+        public string Username { get; set; }
         public string Website { get; set; }
         public string Password { get; set; }
     }

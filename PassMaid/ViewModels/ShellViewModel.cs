@@ -12,6 +12,7 @@ namespace PassMaid.ViewModels
     public class ShellViewModel : Screen
     {
         private string _name;
+        private string _username;
         private string _website;
         private string _password;
         private string _genPassword;
@@ -63,6 +64,16 @@ namespace PassMaid.ViewModels
             {
                 _name = value;
                 NotifyOfPropertyChange(() => Name);
+            }
+        }
+
+        public string Username
+        {
+            get { return _username; }
+            set
+            {
+                _username = value;
+                NotifyOfPropertyChange(() => Username);
             }
         }
 
