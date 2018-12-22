@@ -6,6 +6,8 @@ using System.Text;
 using System.Security.Cryptography;
 using System.Windows.Input;
 using PassMaid.Utils;
+using PassMaid.Views;
+using System.Windows.Controls;
 
 namespace PassMaid.ViewModels
 {
@@ -19,12 +21,15 @@ namespace PassMaid.ViewModels
         private string _password;
         private string _genPassword;
         private string _cipher;
+        private string _hash;
+        private string _status;
 
         private int _lengthOfPassword;
         private bool _includeLowercase;
         private bool _includeUppercase;
         private bool _includeNumeric;
         private bool _includeSpecial;
+        private HashType _selectedHashType;
 
         private readonly int _defaultLength = 32;
         private readonly bool _defaultLowercase = true;
@@ -45,6 +50,7 @@ namespace PassMaid.ViewModels
             IncludeUppercase = _defaultUppercase;
             IncludeNumeric = _defaultNumeric;
             IncludeSpecial = _defaultSpecial;
+            SelectedHashType = HashType.SHA256;
         }
 
         public string Name
@@ -163,6 +169,36 @@ namespace PassMaid.ViewModels
             }
         }
 
+        public string Hash
+        {
+            get { return _hash; }
+            set
+            {
+                _hash = value;
+                NotifyOfPropertyChange(() => Hash);
+            }
+        }
+
+        public string Status
+        {
+            get { return _status; }
+            set
+            {
+                _status = value;
+                NotifyOfPropertyChange(() => Status);
+            }
+        }
+
+        public HashType SelectedHashType
+        {
+            get { return _selectedHashType; }
+            set
+            {
+                _selectedHashType = value;
+                NotifyOfPropertyChange(() => SelectedHashType);
+            }
+        }
+
         public ICommand GeneratePasswordCommand => new RelayCommand(ExecuteGeneratePassword);
 
         public void ExecuteGeneratePassword(object o)
@@ -193,6 +229,48 @@ namespace PassMaid.ViewModels
             {
                 string decryptedPassword = CryptoUtil.Decrypt(Cipher);
                 Password = decryptedPassword;
+            }
+        }
+
+        public ICommand HashCommand => new RelayCommand(ExecuteHash);
+
+        public void ExecuteHash(object o)
+        {
+            if (!String.IsNullOrEmpty(Password))
+            {
+                Hash = CryptoUtil.ComputeHash(Password, SelectedHashType, null);
+            }
+            else
+            {
+                Hash = "Please input a password!";
+            }
+        }
+
+        public ICommand CompareHashCommand => new RelayCommand(ExecuteCompareHash);
+
+        public void ExecuteCompareHash(object o)
+        {
+            if (String.IsNullOrEmpty(Password))
+            {
+                Status = "Password field is empty!";
+                return;
+            }
+
+            if (String.IsNullOrEmpty(Hash))
+            {
+                Status = "Hash field is empty!";
+                return;
+            }
+
+            bool isCorrect = CryptoUtil.CompareHash(Password, Hash, SelectedHashType);
+
+            if (isCorrect)
+            {
+                Status = "Correct";
+            }
+            else
+            {
+                Status = "Incorrect";
             }
         }
     }

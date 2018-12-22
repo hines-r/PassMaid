@@ -4,9 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:PassMaid.Views"
+             xmlns:utils="clr-namespace:PassMaid.Utils"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="350" d:DesignWidth="550">
+
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="hashTypeEnum" MethodName="GetValues" ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="utils:HashType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -22,7 +33,11 @@
             <RowDefinition Height="auto"/>
 
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <!-- Generator -->
@@ -91,9 +106,37 @@
         <!-- Encrypted Password Field -->
         <TextBlock Text="Encrypted Password:" Grid.Row="5" Grid.Column="0" Margin="5"/>
 
-        <TextBox Text="{Binding Cipher, Mode=TwoWay}" Grid.Row="6" Grid.Column="0" Margin="5 0 5 5" TextWrapping ="Wrap" VerticalScrollBarVisibility="Auto"/>
+        <TextBox Text="{Binding Cipher, Mode=TwoWay}" Grid.Row="6" Grid.Column="0" Height="50" Margin="5 0" TextWrapping ="Wrap" VerticalScrollBarVisibility="Auto"/>
 
         <Button Content="Decrypt" Grid.Row="6" Grid.Column="1" VerticalAlignment="Top" Height="23" Width="65" Margin="5 0"
                 Command="{Binding DecryptCommand}"/>
+        
+        <!-- Hash Field -->
+        <TextBlock Text="Hash:" Grid.Row="7" Margin="5"/>
+
+        <TextBox Text="{Binding Hash}" Grid.Row="8" Margin="5 0"/>
+
+        <Button Content="Hash" Grid.Row="8" Grid.Column="1" Height="23" Width="65" Margin="5 0"
+                Command="{Binding HashCommand}"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="9">
+            <ComboBox x:Name="hashComboBox" Width="100" HorizontalAlignment="Left" Margin="5" 
+                  ItemsSource="{Binding Source={StaticResource hashTypeEnum}}" 
+                  SelectedItem="{Binding SelectedHashType}">
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding HashCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+
+            <TextBlock Text="Status:" VerticalAlignment="Center" Margin="5 0"/>
+            <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <Button Content="Confirm" Grid.Row="9" Grid.Column="1" Height="23" Width="65" Margin="5 0"
+                Command="{Binding CompareHashCommand}"/>
+
     </Grid>
 </UserControl>

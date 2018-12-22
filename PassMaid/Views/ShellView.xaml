@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         FontSize="14"
         WindowStartupLocation="CenterScreen"
-        Title="PassMaid" Height="350" Width="500">
+        Title="PassMaid" Height="450" Width="650">
 
     <DockPanel>
         <TabControl ItemsSource="{Binding Tabs}" SelectedIndex="{Binding SelectedIndex}">
