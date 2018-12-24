@@ -38,6 +38,8 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <!-- Generator -->
@@ -137,6 +139,18 @@
 
         <Button Content="Confirm" Grid.Row="9" Grid.Column="1" Height="23" Width="65" Margin="5 0"
                 Command="{Binding CompareHashCommand}"/>
+        
+        <!-- Save/Clear Button Group -->
+        <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.ColumnSpan="2" Margin="5 25 5 5" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+            <Button Content="Save" Height="23" Width="80" Margin="5 0"
+                Command="{Binding SaveCommand}"/>
+
+            <Button Content="Clear" Height="23" Width="80" Margin="5 0"
+                Command="{Binding ClearCommand}"/>
+
+        </StackPanel>
+
 
     </Grid>
 </UserControl>
