@@ -273,5 +273,23 @@ namespace PassMaid.ViewModels
                 Status = "Incorrect";
             }
         }
+
+        public ICommand SaveCommand => new RelayCommand(ExecuteSave);
+
+        public void ExecuteSave(object o)
+        {
+            // TODO: Create a secure way of saving password hashes into a database
+        }
+
+        public ICommand ClearCommand => new RelayCommand(ExecuteClear);
+
+        public void ExecuteClear(object o)
+        {
+            Password = "";
+            GenPassword = "";
+            Cipher = "";
+            Hash = "";
+            Status = "All fields clear!";
+        }
     }
 }
