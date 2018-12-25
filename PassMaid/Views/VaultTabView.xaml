@@ -7,6 +7,29 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="This is the vault view" FontSize="39"/>
+        <ListBox ItemsSource="{Binding Passwords}" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{Binding Name}" Grid.Row="0" Grid.Column="0" Margin="10 0"/>
+                        <TextBlock Text="{Binding Website}" FontSize="11" Grid.Row="1" Grid.Column="0" Margin="10 0"/>
+
+                        <TextBlock Text="{Binding Username}" Grid.Row="0" Grid.Column="1" Margin="10 0"/>
+                        <TextBlock Text="{Binding Password}" Grid.Row="0" Grid.Column="2" Margin="10 0"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>
