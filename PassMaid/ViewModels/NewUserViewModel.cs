@@ -51,6 +51,8 @@ namespace PassMaid.ViewModels
 
         public void ExecuteCreateUser(object o)
         {
+            if (String.IsNullOrEmpty(UserUsername) || String.IsNullOrEmpty(UserPassword)) return;
+
             // Checks to see if both passwords match before creating a new user
             if (UserPassword == ConfirmUserPassword)
             {
