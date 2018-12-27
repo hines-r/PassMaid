@@ -72,7 +72,9 @@ namespace PassMaid.ViewModels
 
         public void ExecuteCancel(object o)
         {
-            // TODO: Go back to login view
+            // Redirects the user back to the login screen
+            var parentConductor = this.Parent as Conductor<Screen>;
+            parentConductor.ActivateItem(new LoginViewModel());
         }
     }
 }
