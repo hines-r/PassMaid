@@ -5,38 +5,25 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PassMaid.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="175" d:DesignWidth="350">
-    
-    <Grid Margin="10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="125"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+             d:DesignHeight="450" d:DesignWidth="800">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
+    <StackPanel HorizontalAlignment="Center">
+        <TextBlock Text="Create a new user" FontSize="30"  HorizontalAlignment="Center" Margin="25 25 25 50"/>
 
-        <TextBlock Text="Username:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox Text="{Binding UserUsername}" Grid.Row="0" Grid.Column="1"/>
+        <TextBlock Text="Username:" VerticalAlignment="Center"/>
+        <TextBox Text="{Binding UserUsername}" Width="300" Margin="0 0 0 25"/>
 
-        <TextBlock Text="Password:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox Text="{Binding UserPassword}" Grid.Row="2" Grid.Column="1"/>
+        <TextBlock Text="Password:" VerticalAlignment="Center"/>
+        <TextBox Text="{Binding UserPassword}" Margin="0 0 0 25"/>
 
-        <TextBlock Text="Confirm Password:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox Text="{Binding ConfirmUserPassword}" Grid.Row="4" Grid.Column="1"/>
+        <TextBlock Text="Confirm Password:" VerticalAlignment="Center"/>
+        <TextBox Text="{Binding ConfirmUserPassword}" Margin="0 0 0 50"/>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Content="Create" Width="75" Margin="5 0"
                     Command="{Binding CreateUserCommand}"/>
             <Button Content="Cancel" Width="75" Margin="5 0"
                     Command="{Binding CancelCommand}"/>
         </StackPanel>
-    </Grid>
+    </StackPanel>
 </UserControl>
