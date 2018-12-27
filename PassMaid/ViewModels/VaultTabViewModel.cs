@@ -15,11 +15,24 @@ namespace PassMaid.ViewModels
 
         private Screen _currentScreen;
 
+        public List<Screen> VaultScreens { get; set; }
+
         public VaultTabViewModel()
         {
             TabName = _TabName;
 
-            CurrentScreen = new VaultViewModel();
+            VaultScreens = new List<Screen>
+            {
+                new VaultViewModel(),
+                new NewPasswordViewModel()
+            };
+
+            foreach (Screen screen in VaultScreens)
+            {
+                screen.Parent = this;
+            }
+
+            CurrentScreen = VaultScreens[0]; // Sets default screen to vault view model
         }
 
         public Screen CurrentScreen
@@ -36,7 +49,7 @@ namespace PassMaid.ViewModels
 
         public void ExecuteNewPassword(object o)
         {
-            CurrentScreen = new NewPasswordViewModel();
+            CurrentScreen = VaultScreens[1]; // Sets vault tab screen to new password view model
         }
     }
 }

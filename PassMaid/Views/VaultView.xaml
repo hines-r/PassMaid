@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:PassMaid.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
     <Grid>
         <ListBox ItemsSource="{Binding Passwords}" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
@@ -30,6 +31,6 @@
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>
+        </ListBox>  
     </Grid>
 </UserControl>
