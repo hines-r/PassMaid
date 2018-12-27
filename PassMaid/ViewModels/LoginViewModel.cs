@@ -19,5 +19,13 @@ namespace PassMaid.ViewModels
             var parentConductor = this.Parent as Conductor<Screen>; // Gets parent conductor (ShellViewModel)
             parentConductor.ActivateItem(new TabViewModel()); // Sets new active item for ContentControl within the shell view
         }
+
+        public ICommand CreateUserCommand => new RelayCommand(ExecuteCreateUser);
+
+        public void ExecuteCreateUser(object o)
+        {
+            var parentConductor = this.Parent as Conductor<Screen>;
+            parentConductor.ActivateItem(new NewUserViewModel());
+        }
     }
 }
