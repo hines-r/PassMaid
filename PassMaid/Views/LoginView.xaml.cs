@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PassMaid.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,14 @@ namespace PassMaid.Views
         public LoginView()
         {
             InitializeComponent();
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null)
+            {
+                ((LoginViewModel)DataContext).SecurePassword = ((PasswordBox)sender).SecurePassword;
+            }
         }
     }
 }

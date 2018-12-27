@@ -5,11 +5,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Security;
+using System.Windows.Controls;
 
 namespace PassMaid.ViewModels
 {
     public class LoginViewModel : Screen
     {
+        private string _username;
+
+        public string Username
+        {
+            get { return _username; }
+            set
+            {
+                _username = value;
+                NotifyOfPropertyChange(() => Username);
+            }
+        }
+
+        public SecureString SecurePassword { private get; set; }
+
         public ICommand LoginCommand => new RelayCommand(ExecuteLogin);
 
         public void ExecuteLogin(object o)
