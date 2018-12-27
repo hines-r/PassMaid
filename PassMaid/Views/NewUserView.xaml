@@ -9,7 +9,7 @@
     
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="110"/>
+            <ColumnDefinition Width="125"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -33,9 +33,9 @@
         <TextBox Text="{Binding ConfirmUserPassword}" Grid.Row="4" Grid.Column="1"/>
 
         <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Center">
-            <Button Content="Create" Margin="5 0"
+            <Button Content="Create" Width="75" Margin="5 0"
                     Command="{Binding CreateUserCommand}"/>
-            <Button Content="Cancel" Margin="5 0"
+            <Button Content="Cancel" Width="75" Margin="5 0"
                     Command="{Binding CancelCommand}"/>
         </StackPanel>
     </Grid>
