@@ -24,17 +24,19 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="Username:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox Grid.Row="0" Grid.Column="1"/>
+        <TextBox Text="{Binding UserUsername}" Grid.Row="0" Grid.Column="1"/>
 
         <TextBlock Text="Password:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Height="Auto"/>
+        <TextBox Text="{Binding UserPassword}" Grid.Row="2" Grid.Column="1"/>
 
         <TextBlock Text="Confirm Password:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox Grid.Row="4" Grid.Column="1" Height="Auto"/>
+        <TextBox Text="{Binding ConfirmUserPassword}" Grid.Row="4" Grid.Column="1"/>
 
         <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Center">
-            <Button Content="Create" Margin="5 0"/>
-            <Button Content="Cancel" Margin="5 0"/>
+            <Button Content="Create" Margin="5 0"
+                    Command="{Binding CreateUserCommand}"/>
+            <Button Content="Cancel" Margin="5 0"
+                    Command="{Binding CancelCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>
