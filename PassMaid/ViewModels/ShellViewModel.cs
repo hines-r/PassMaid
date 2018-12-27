@@ -9,10 +9,8 @@ using PassMaid.Utils;
 
 namespace PassMaid.ViewModels
 {
-    public class ShellViewModel : Screen
+    public class ShellViewModel : Conductor<Screen>
     {
-        private int _selectedIndex;
-
         public ShellViewModel()
         {
             Init();
@@ -20,25 +18,8 @@ namespace PassMaid.ViewModels
 
         private void Init()
         {
-            Tabs = new BindableCollection<ITab>
-            {
-                new VaultTabViewModel(),
-                new GeneratorTabViewModel()
-            };
-
-            SelectedIndex = 0; // Sets the first tab to be selected
-        }
-
-        public BindableCollection<ITab> Tabs { get; private set; }
-
-        public int SelectedIndex
-        {
-            get { return _selectedIndex; }
-            set
-            {
-                _selectedIndex = value;
-                NotifyOfPropertyChange(() => SelectedIndex);
-            }
+            // Sets default view when starting the program to the login view
+            ActivateItem(new LoginViewModel());
         }
     }
 }

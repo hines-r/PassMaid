@@ -4,30 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PassMaid.Views"
-        xmlns:vm="clr-namespace:PassMaid.ViewModels"
-        xmlns:root="clr-namespace:PassMaid"
         mc:Ignorable="d"
         FontSize="14"
         WindowStartupLocation="CenterScreen"
         Title="PassMaid" Height="450" Width="650">
 
-    <DockPanel>
-        <TabControl ItemsSource="{Binding Tabs}" SelectedIndex="{Binding SelectedIndex}">
-            <TabControl.Resources>
-                <DataTemplate DataType="{x:Type vm:VaultTabViewModel}">
-                    <local:VaultTabView/>
-                </DataTemplate>
-
-                <DataTemplate DataType="{x:Type vm:GeneratorTabViewModel}">
-                    <local:GeneratorTabView/>
-                </DataTemplate>
-            </TabControl.Resources>
-
-            <TabControl.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding TabName}"/>
-                </DataTemplate>
-            </TabControl.ItemTemplate>
-        </TabControl>
-    </DockPanel>
+    <Grid>
+        <!-- Displays currently active item -->
+        <ContentControl x:Name="ActiveItem"/>
+    </Grid>
 </Window>
