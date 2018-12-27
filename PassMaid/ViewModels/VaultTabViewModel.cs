@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace PassMaid.ViewModels
 {
@@ -12,53 +13,30 @@ namespace PassMaid.ViewModels
     {
         private const string _TabName = "Vault";
 
-        public BindableCollection<PasswordModel> Passwords { get; set; }
+        private Screen _currentScreen;
 
         public VaultTabViewModel()
         {
             TabName = _TabName;
 
-            // TODO: Securely store password hash and load in from a secure location
+            CurrentScreen = new VaultViewModel();
+        }
 
-            // Temp code
-            Passwords = new BindableCollection<PasswordModel>
+        public Screen CurrentScreen
+        {
+            get { return _currentScreen; }
+            set
             {
-                new PasswordModel()
-                {
-                    Name = "Password for a random website",
-                    Website = "www.website.com",
-                    Username = "username",
-                    Password = "password"
-                },
-                new PasswordModel()
-                {
-                    Name = "Password for a random website",
-                    Website = "www.website.com",
-                    Username = "username",
-                    Password = "password"
-                },
-                new PasswordModel()
-                {
-                    Name = "Password for a random website",
-                    Website = "www.website.com",
-                    Username = "username",
-                    Password = "password"
-                },
-                new PasswordModel()
-                {
-                    Name = "Password for a random website",
-                    Website = "www.website.com",
-                    Username = "username",
-                    Password = "password"
-                },
-                new PasswordModel()
-                {
-                    Name = "Password for a random website",
-                    Website = "www.website.com",
-                    Username = "username",
-                    Password = "password"
-                },
-            };
+                _currentScreen = value;
+                NotifyOfPropertyChange(() => CurrentScreen);
+            }
+        }
+
+        public ICommand NewPasswordCommand => new RelayCommand(ExecuteNewPassword);
+
+        public void ExecuteNewPassword(object o)
+        {
+            CurrentScreen = new NewPasswordViewModel();
         }
     }
 }

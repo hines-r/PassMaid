@@ -82,15 +82,20 @@
     <Compile Include="Utils\PasswordGenerator.cs" />
     <Compile Include="ViewModels\GeneratorTabViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\NewPasswordViewModel.cs" />
     <Compile Include="ViewModels\NewUserViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\TabViewModel.cs" />
     <Compile Include="ViewModels\VaultTabViewModel.cs" />
+    <Compile Include="ViewModels\VaultViewModel.cs" />
     <Compile Include="Views\GeneratorTabView.xaml.cs">
       <DependentUpon>GeneratorTabView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewPasswordView.xaml.cs">
+      <DependentUpon>NewPasswordView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NewUserView.xaml.cs">
       <DependentUpon>NewUserView.xaml</DependentUpon>
@@ -103,6 +108,9 @@
     </Compile>
     <Compile Include="Views\VaultTabView.xaml.cs">
       <DependentUpon>VaultTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VaultView.xaml.cs">
+      <DependentUpon>VaultView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +151,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\NewPasswordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\NewUserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -156,6 +168,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\VaultTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VaultView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
