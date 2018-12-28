@@ -23,8 +23,7 @@ namespace PassMaid.ViewModels
 
             VaultScreens = new List<Screen>
             {
-                new VaultViewModel(),
-                new NewPasswordViewModel()
+                new VaultViewModel()
             };
 
             foreach (Screen screen in VaultScreens)
@@ -49,7 +48,12 @@ namespace PassMaid.ViewModels
 
         public void ExecuteNewPassword(object o)
         {
-            CurrentScreen = VaultScreens[1]; // Sets vault tab screen to new password view model
+            NewPasswordViewModel newPassViewModel = new NewPasswordViewModel()
+            {
+                Parent = this
+            };
+
+            CurrentScreen = newPassViewModel; // Sets vault tab screen to new password view model
         }
     }
 }
