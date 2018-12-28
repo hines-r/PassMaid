@@ -1,9 +1,11 @@
 ﻿using Caliburn.Micro;
+using PassMaid.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace PassMaid.ViewModels
 {
@@ -15,17 +17,18 @@ namespace PassMaid.ViewModels
         private string _username;
         private string _password;
 
-        public EditPasswordViewModel()
-        {
+        private PasswordModel SelectedPassword { get; set; }
+        private VaultViewModel VaultViewModel { get; set; }
 
-        }
-
-        public EditPasswordViewModel(string name, string website, string username, string password)
+        public EditPasswordViewModel(PasswordModel _selectedPassword, VaultViewModel _vaultViewModel)
         {
-            this.Name = name;
-            this.Website = website;
-            this.Username = username;
-            this.Password = password;
+            SelectedPassword = _selectedPassword;
+            VaultViewModel = _vaultViewModel;
+
+            this.Name = SelectedPassword.Name;
+            this.Website = SelectedPassword.Website;
+            this.Username = SelectedPassword.Username;
+            this.Password = SelectedPassword.Password;
 
             EditText = $"Edit {Name}";
         }
@@ -78,6 +81,27 @@ namespace PassMaid.ViewModels
                 _password = value;
                 NotifyOfPropertyChange(() => Password);
             }
+        }
+
+        public ICommand SubmitCommand => new RelayCommand(ExecuteSubmit);
+
+        public void ExecuteSubmit(object o)
+        {
+            VaultViewModel.SelectedPassword.Name = this.Name;
+            VaultViewModel.SelectedPassword.Website = this.Website;
+            VaultViewModel.SelectedPassword.Username = this.Username;
+            VaultViewModel.SelectedPassword.Password = this.Password;
+
+            var parent = this.Parent as VaultTabViewModel;
+            parent.CurrentScreen = parent.VaultScreens[0];
+        }
+
+        public ICommand CancelCommand => new RelayCommand(ExecuteCancel);
+
+        public void ExecuteCancel(object o)
+        {
+            var parent = this.Parent as VaultTabViewModel;
+            parent.CurrentScreen = parent.VaultScreens[0];
         }
     }
 }

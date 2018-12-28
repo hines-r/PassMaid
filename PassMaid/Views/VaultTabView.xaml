@@ -16,6 +16,10 @@
         <DataTemplate DataType="{x:Type vm:NewPasswordViewModel}">
             <local:NewPasswordView/>
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:EditPasswordViewModel}">
+            <local:EditPasswordView/>
+        </DataTemplate>
     </UserControl.Resources>
     
     <Grid>

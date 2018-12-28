@@ -80,6 +80,7 @@
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Utils\CryptoUtil.cs" />
     <Compile Include="Utils\PasswordGenerator.cs" />
+    <Compile Include="ViewModels\EditPasswordViewModel.cs" />
     <Compile Include="ViewModels\GeneratorTabViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\NewPasswordViewModel.cs" />
@@ -88,6 +89,9 @@
     <Compile Include="ViewModels\TabViewModel.cs" />
     <Compile Include="ViewModels\VaultTabViewModel.cs" />
     <Compile Include="ViewModels\VaultViewModel.cs" />
+    <Compile Include="Views\EditPasswordView.xaml.cs">
+      <DependentUpon>EditPasswordView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GeneratorTabView.xaml.cs">
       <DependentUpon>GeneratorTabView.xaml</DependentUpon>
     </Compile>
@@ -143,6 +147,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="Views\EditPasswordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GeneratorTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
