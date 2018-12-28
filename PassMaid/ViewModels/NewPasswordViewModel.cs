@@ -80,6 +80,8 @@ namespace PassMaid.ViewModels
             var vault = parent.VaultScreens[0] as VaultViewModel;
 
             vault.Passwords.Add(newPassword);
+
+            parent.CurrentScreen = vault; // Goes back to the vault view
         }
 
         public ICommand CancelCommand => new RelayCommand(ExecuteCancel);
