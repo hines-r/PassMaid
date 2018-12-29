@@ -87,10 +87,10 @@ namespace PassMaid.ViewModels
 
         public void ExecuteSubmit(object o)
         {
-            VaultViewModel.SelectedPassword.Name = this.Name;
-            VaultViewModel.SelectedPassword.Website = this.Website;
-            VaultViewModel.SelectedPassword.Username = this.Username;
-            VaultViewModel.SelectedPassword.Password = this.Password;
+            VaultViewModel.SelectedPasswordModel.Name = this.Name;
+            VaultViewModel.SelectedPasswordModel.Website = this.Website;
+            VaultViewModel.SelectedPasswordModel.Username = this.Username;
+            VaultViewModel.SelectedPasswordModel.Password = this.Password;
 
             var parent = this.Parent as VaultTabViewModel;
             parent.CurrentScreen = parent.VaultScreens[0];

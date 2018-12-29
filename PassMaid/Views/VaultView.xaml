@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Left Side -->
-        <ListBox ItemsSource="{Binding Passwords}" Grid.Column="0" HorizontalContentAlignment="Stretch" SelectedItem="{Binding SelectedPassword}">
+        <ListBox ItemsSource="{Binding Passwords}" Grid.Column="0" HorizontalContentAlignment="Stretch" SelectedItem="{Binding SelectedPasswordModel}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding EditCommand}"/>
@@ -56,16 +56,16 @@
         <!-- Right Side -->
         <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Name:"/>
-            <TextBox Width="250" Margin="0 0 0 25"/>
+            <TextBox Text="{Binding SelectedName}" Width="250" Margin="0 0 0 25"/>
 
             <TextBlock Text="Website:"/>
-            <TextBox Width="250" Margin="0 0 0 25"/>
+            <TextBox Text="{Binding SelectedWebsite}" Width="250" Margin="0 0 0 25"/>
 
             <TextBlock Text="Username:"/>
-            <TextBox Width="250" Margin="0 0 0 25"/>
+            <TextBox Text="{Binding SelectedUsername}" Width="250" Margin="0 0 0 25"/>
 
             <TextBlock Text="Password:"/>
-            <TextBox Width="250" Margin="0 0 0 25"/>
+            <TextBox Text="{Binding SelectedPassword}" Width="250" Margin="0 0 0 25"/>
         </StackPanel>
     </Grid>
 </UserControl>

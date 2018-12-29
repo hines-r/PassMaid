@@ -11,7 +11,12 @@ namespace PassMaid.ViewModels
 {
     public class VaultViewModel : Screen
     {
-        private PasswordModel _selectedPassword;
+        private string _selectedName;
+        private string _selectedWebsite;
+        private string _selectedUsername;
+        private string _selectedPassword;
+
+        private PasswordModel _selectedPasswordModel;
 
         public BindableCollection<PasswordModel> Passwords { get; set; }
 
@@ -60,7 +65,37 @@ namespace PassMaid.ViewModels
             };
         }
 
-        public PasswordModel SelectedPassword
+        public string SelectedName
+        {
+            get { return _selectedName; }
+            set
+            {
+                _selectedName = value;
+                NotifyOfPropertyChange(() => SelectedName);
+            }
+        }
+
+        public string SelectedWebsite
+        {
+            get { return _selectedWebsite; }
+            set
+            {
+                _selectedWebsite = value;
+                NotifyOfPropertyChange(() => SelectedWebsite);
+            }
+        }
+
+        public string SelectedUsername
+        {
+            get { return _selectedUsername; }
+            set
+            {
+                _selectedUsername = value;
+                NotifyOfPropertyChange(() => SelectedUsername);
+            }
+        }
+
+        public string SelectedPassword
         {
             get { return _selectedPassword; }
             set
@@ -70,13 +105,32 @@ namespace PassMaid.ViewModels
             }
         }
 
+        public PasswordModel SelectedPasswordModel
+        {
+            get { return _selectedPasswordModel; }
+            set
+            {
+                _selectedPasswordModel = value;
+
+                if (SelectedPasswordModel != null)
+                {
+                    SelectedName = SelectedPasswordModel.Name;
+                    SelectedWebsite = SelectedPasswordModel.Website;
+                    SelectedUsername = SelectedPasswordModel.Username;
+                    SelectedPassword = SelectedPasswordModel.Password;
+                }
+
+                NotifyOfPropertyChange(() => SelectedPasswordModel);
+            }
+        }
+
         public ICommand EditCommand => new RelayCommand(ExecuteEdit);
 
         public void ExecuteEdit(object o)
         {
             var parent = this.Parent as VaultTabViewModel;
 
-            EditPasswordViewModel editVM = new EditPasswordViewModel(SelectedPassword, this)
+            EditPasswordViewModel editVM = new EditPasswordViewModel(SelectedPasswordModel, this)
             {
                 Parent = parent
             };
