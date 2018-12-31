@@ -52,5 +52,15 @@ namespace PassMaid.ViewModels
         {
             VaultVM.PassScreenType = new DisplayPasswordViewModel(SelectedPassword, VaultVM);
         }
+
+        public ICommand DeleteCommand => new RelayCommand(ExecuteDelete);
+
+        public void ExecuteDelete(object o)
+        {
+            SqliteDataAcess.DeletePassword(VaultVM.SelectedPasswordModel);
+            VaultVM.Passwords.Remove(VaultVM.SelectedPasswordModel);
+
+            VaultVM.PassScreenType = new DisplayPasswordViewModel(null, VaultVM);
+        }
     }
 }

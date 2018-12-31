@@ -45,6 +45,14 @@ namespace PassMaid
             }
         }
 
+        public static void DeletePassword(PasswordModel password)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                cnn.Execute("DELETE FROM Password WHERE Id = @Id", password);
+            }
+        }
+
         private static string LoadConnectionString(string id = "Default")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
