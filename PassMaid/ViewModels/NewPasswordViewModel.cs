@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using PassMaid.Models;
+using PassMaid.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,53 +10,8 @@ using System.Windows.Input;
 
 namespace PassMaid.ViewModels
 {
-    public class NewPasswordViewModel : Screen
+    public class NewPasswordViewModel : PasswordScreen
     {
-        private string _name;
-        private string _website;
-        private string _username;
-        private string _password;
-
-        public string Name
-        {
-            get { return _name; }
-            set
-            {
-                _name = value;
-                NotifyOfPropertyChange(() => Name);
-            }
-        }
-
-        public string Website
-        {
-            get { return _website; }
-            set
-            {
-                _website = value;
-                NotifyOfPropertyChange(() => Website);
-            }
-        }
-
-        public string Username
-        {
-            get { return _username; }
-            set
-            {
-                _username = value;
-                NotifyOfPropertyChange(() => Username);
-            }
-        }
-
-        public string Password
-        {
-            get { return _password; }
-            set
-            {
-                _password = value;
-                NotifyOfPropertyChange(() => Password);
-            }
-        }
-
         public ICommand SaveCommand => new RelayCommand(ExecuteSave);
 
         public void ExecuteSave(object o)
@@ -73,13 +29,14 @@ namespace PassMaid.ViewModels
                 Name = this.Name,
                 Website = this.Website,
                 Username = this.Username,
-                Password = this.Password                  
+                Password = CryptoUtil.ComputeHash(this.Password, HashType.SHA256, null) // Stores hash
             };
 
             var parent = this.Parent as VaultTabViewModel;
             var vault = parent.VaultScreens[0] as VaultViewModel;
 
             vault.Passwords.Add(newPassword);
+            SqliteDataAcess.SavePassword(newPassword);
 
             parent.CurrentScreen = vault; // Goes back to the vault view
         }

@@ -9,21 +9,16 @@ using System.Windows.Input;
 
 namespace PassMaid.ViewModels
 {
-    public class EditPasswordViewModel : Screen
+    public class EditPasswordViewModel : PasswordScreen
     {
         private string _editText;
-        private string _name;
-        private string _website;
-        private string _username;
-        private string _password;
 
-        private PasswordModel SelectedPassword { get; set; }
-        private VaultViewModel VaultViewModel { get; set; }
+        private VaultViewModel VaultVM { get; set; }
 
         public EditPasswordViewModel(PasswordModel _selectedPassword, VaultViewModel _vaultViewModel)
         {
             SelectedPassword = _selectedPassword;
-            VaultViewModel = _vaultViewModel;
+            VaultVM = _vaultViewModel;
 
             this.Name = SelectedPassword.Name;
             this.Website = SelectedPassword.Website;
@@ -43,54 +38,14 @@ namespace PassMaid.ViewModels
             }
         }
 
-        public string Name
-        {
-            get { return _name; }
-            set
-            {
-                _name = value;
-                NotifyOfPropertyChange(() => Name);
-            }
-        }
+        public ICommand SaveCommand => new RelayCommand(ExecuteSave);
 
-        public string Website
+        public void ExecuteSave(object o)
         {
-            get { return _website; }
-            set
-            {
-                _website = value;
-                NotifyOfPropertyChange(() => Website);
-            }
-        }
-
-        public string Username
-        {
-            get { return _username; }
-            set
-            {
-                _username = value;
-                NotifyOfPropertyChange(() => Username);
-            }
-        }
-
-        public string Password
-        {
-            get { return _password; }
-            set
-            {
-                _password = value;
-                NotifyOfPropertyChange(() => Password);
-            }
-        }
-
-        public ICommand SubmitCommand => new RelayCommand(ExecuteSubmit);
-
-        public void ExecuteSubmit(object o)
-        {
-            VaultViewModel.SelectedPasswordModel.Name = this.Name;
-            VaultViewModel.SelectedPasswordModel.Website = this.Website;
-            VaultViewModel.SelectedPasswordModel.Username = this.Username;
-            VaultViewModel.SelectedPasswordModel.Password = this.Password;
+            VaultVM.SelectedPasswordModel.Name = this.Name;
+            VaultVM.SelectedPasswordModel.Website = this.Website;
+            VaultVM.SelectedPasswordModel.Username = this.Username;
+            VaultVM.SelectedPasswordModel.Password = this.Password;
 
             var parent = this.Parent as VaultTabViewModel;
             parent.CurrentScreen = parent.VaultScreens[0];
