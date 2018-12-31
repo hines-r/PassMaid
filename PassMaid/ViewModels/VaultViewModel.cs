@@ -53,10 +53,7 @@ namespace PassMaid.ViewModels
 
         public void ExecuteNewPassword(object o)
         {
-            PassScreenType = new NewPasswordViewModel(SelectedPasswordModel, this)
-            {
-                Parent = this
-            };
+            PassScreenType = new NewPasswordViewModel(SelectedPasswordModel, this);
         }
     }
 }
