@@ -32,6 +32,19 @@ namespace PassMaid
             }
         }
 
+        public static void UpdatePassword(PasswordModel password)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                cnn.Execute("UPDATE Password SET " +
+                    "Name = @Name, " +
+                    "Website = @Website, " +
+                    "Username = @Username, " +
+                    "Password = @Password " +
+                    "WHERE Id = @Id", password);
+            }
+        }
+
         private static string LoadConnectionString(string id = "Default")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;

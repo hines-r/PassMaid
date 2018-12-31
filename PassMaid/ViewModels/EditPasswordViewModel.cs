@@ -42,6 +42,7 @@ namespace PassMaid.ViewModels
             VaultVM.SelectedPasswordModel.Username = this.Username;
             VaultVM.SelectedPasswordModel.Password = this.Password;
 
+            SqliteDataAcess.UpdatePassword(VaultVM.SelectedPasswordModel);
             VaultVM.PassScreenType = new DisplayPasswordViewModel(SelectedPassword, VaultVM);
         }
 
