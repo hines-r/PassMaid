@@ -8,7 +8,7 @@
              xmlns:vm="clr-namespace:PassMaid.ViewModels"
              UseLayoutRounding="True"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="500" d:DesignWidth="800">
     
     <Grid>
         <Grid.ColumnDefinitions>
@@ -41,31 +41,44 @@
 
                         <TextBlock Text="{Binding Name}" Grid.Row="0" Grid.Column="0" Margin="10 0"/>
                         <TextBlock Text="{Binding Website}" FontSize="11" Grid.Row="1" Grid.Column="0" Margin="10 0"/>
-
-                        <!--<TextBlock Text="{Binding Username}" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="10 0"/>-->
-                        <!--<TextBlock Text="{Binding Password}" Grid.Row="0" Grid.Column="2" Margin="10 0"/>-->
-
-                        <!--<Image Source="/Resources/Images/info.png" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" SnapsToDevicePixels="True" Stretch="None"/>
-                        <Image Source="/Resources/Images/user.png" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" SnapsToDevicePixels="True" Stretch="None"/>
-                        <Image Source="/Resources/Images/key.png" Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" SnapsToDevicePixels="True" Stretch="None"/>-->
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
         <!-- Right Side -->
-        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Name:"/>
-            <TextBox Text="{Binding SelectedName}" Width="250" Margin="0 0 0 25"/>
+        <Grid Grid.Column="1" Margin="10 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            <TextBlock Text="Website:"/>
-            <TextBox Text="{Binding SelectedWebsite}" Width="250" Margin="0 0 0 25"/>
+            <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <GroupBox Header="Password Information" Grid.Row="0" Padding="15">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="Name:" Foreground="DimGray"/>
+                        <TextBox Text="{Binding SelectedName}" Width="400" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent"/>
 
-            <TextBlock Text="Username:"/>
-            <TextBox Text="{Binding SelectedUsername}" Width="250" Margin="0 0 0 25"/>
+                        <Separator Margin="0 0 0 25"/>
 
-            <TextBlock Text="Password:"/>
-            <TextBox Text="{Binding SelectedPassword}" Width="250" Margin="0 0 0 25"/>
-        </StackPanel>
+                        <TextBlock Text="Website:" Foreground="DimGray"/>
+                        <TextBox Text="{Binding SelectedWebsite}" Width="400" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent"/>
+
+                        <Separator Margin="0 0 0 25"/>
+
+                        <TextBlock Text="Username:" Foreground="DimGray"/>
+                        <TextBox Text="{Binding SelectedUsername}" Width="400" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent"/>
+
+                        <Separator Margin="0 0 0 25"/>
+
+                        <TextBlock Text="Password:" Foreground="DimGray"/>
+                        <TextBox Text="{Binding SelectedPassword}" Width="400" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent"/>
+
+                        <Separator Margin="0 0 0 25"/>
+
+                        <Button Content="Edit" Grid.Row="1" Width="100" Height="25" Margin="5"/>
+                    </StackPanel>
+                </GroupBox>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </UserControl>

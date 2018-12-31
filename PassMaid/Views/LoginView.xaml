@@ -12,10 +12,10 @@
         <TextBlock Text="PassMaid" FontSize="55" HorizontalAlignment="Center" Margin="10"/>
 
         <TextBlock Text="Username" HorizontalAlignment="Center" Margin="5 5 5 10"/>
-        <TextBox Text="{Binding Username}" MinWidth="100" Width="500" Margin="5 0 5 20"/>
+        <TextBox Text="{Binding Username}" MinWidth="100" Width="500" TextAlignment="Center" Margin="5 0 5 20"/>
 
         <TextBlock Text="Password" HorizontalAlignment="Center" Margin="5 5 5 10"/>
-        <PasswordBox PasswordChanged="PasswordBox_PasswordChanged" MinWidth="100" Width="500" Margin="5 0 5 20"/>
+        <PasswordBox PasswordChanged="PasswordBox_PasswordChanged" MinWidth="100" Width="500" HorizontalContentAlignment="Center" Margin="5 0 5 20"/>
 
         <Button Content="Login" FontSize="12" Width="100" Height="30" Margin="5 10 5 5"
                 Command="{Binding LoginCommand}"/>
