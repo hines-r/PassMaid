@@ -43,17 +43,5 @@ namespace PassMaid.ViewModels
                 NotifyOfPropertyChange(() => CurrentScreen);
             }
         }
-
-        public ICommand NewPasswordCommand => new RelayCommand(ExecuteNewPassword);
-
-        public void ExecuteNewPassword(object o)
-        {
-            NewPasswordViewModel newPassViewModel = new NewPasswordViewModel()
-            {
-                Parent = this
-            };
-
-            CurrentScreen = newPassViewModel; // Sets vault tab screen to new password view model
-        }
     }
 }

@@ -13,13 +13,8 @@ namespace PassMaid.ViewModels
     {
         private string _editText;
 
-        private VaultViewModel VaultVM { get; set; }
-
-        public EditPasswordViewModel(PasswordModel _selectedPassword, VaultViewModel _vaultViewModel)
+        public EditPasswordViewModel(PasswordModel _selectedPassword, VaultViewModel _vaultViewModel) : base(_selectedPassword, _vaultViewModel)
         {
-            SelectedPassword = _selectedPassword;
-            VaultVM = _vaultViewModel;
-
             this.Name = SelectedPassword.Name;
             this.Website = SelectedPassword.Website;
             this.Username = SelectedPassword.Username;
@@ -47,16 +42,14 @@ namespace PassMaid.ViewModels
             VaultVM.SelectedPasswordModel.Username = this.Username;
             VaultVM.SelectedPasswordModel.Password = this.Password;
 
-            var parent = this.Parent as VaultTabViewModel;
-            parent.CurrentScreen = parent.VaultScreens[0];
+            VaultVM.PassScreenType = new DisplayPasswordViewModel(SelectedPassword, VaultVM);
         }
 
         public ICommand CancelCommand => new RelayCommand(ExecuteCancel);
 
         public void ExecuteCancel(object o)
         {
-            var parent = this.Parent as VaultTabViewModel;
-            parent.CurrentScreen = parent.VaultScreens[0];
+            VaultVM.PassScreenType = new DisplayPasswordViewModel(SelectedPassword, VaultVM);
         }
     }
 }

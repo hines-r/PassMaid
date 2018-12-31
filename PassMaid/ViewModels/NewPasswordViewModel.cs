@@ -12,12 +12,15 @@ namespace PassMaid.ViewModels
 {
     public class NewPasswordViewModel : PasswordScreen
     {
+        public NewPasswordViewModel(PasswordModel _selectedPassword, VaultViewModel _vaultViewModel) : base(_selectedPassword, _vaultViewModel)
+        {
+            
+        }
+
         public ICommand SaveCommand => new RelayCommand(ExecuteSave);
 
         public void ExecuteSave(object o)
         {
-            // TODO: Securely store password models
-
             // User needs to input all fields
             if (String.IsNullOrEmpty(Name) || String.IsNullOrEmpty(Website) || String.IsNullOrEmpty(Username) || String.IsNullOrEmpty(Password))
             {
@@ -32,21 +35,17 @@ namespace PassMaid.ViewModels
                 Password = CryptoUtil.ComputeHash(this.Password, HashType.SHA256, null) // Stores hash
             };
 
-            var parent = this.Parent as VaultTabViewModel;
-            var vault = parent.VaultScreens[0] as VaultViewModel;
-
-            vault.Passwords.Add(newPassword);
+            VaultVM.Passwords.Add(newPassword);
             SqliteDataAcess.SavePassword(newPassword);
 
-            parent.CurrentScreen = vault; // Goes back to the vault view
+            VaultVM.PassScreenType = new DisplayPasswordViewModel(SelectedPassword, VaultVM);
         }
 
         public ICommand CancelCommand => new RelayCommand(ExecuteCancel);
 
         public void ExecuteCancel(object o)
         {
-            var parent = this.Parent as VaultTabViewModel;
-            parent.CurrentScreen = parent.VaultScreens[0]; // Sets vault tab view content control back to the regular vault view
+            VaultVM.PassScreenType = new DisplayPasswordViewModel(SelectedPassword, VaultVM); // Sets vault tab view content control back to the regular vault view
         }
     }
 }

@@ -21,15 +21,6 @@
             <local:EditPasswordView/>
         </DataTemplate>
     </UserControl.Resources>
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
-        </Grid.RowDefinitions>
 
-        <ContentControl Content="{Binding CurrentScreen}"/>
-        <Button Content="New Password" Grid.Row="1" Width="200" Height="35"
-                Command="{Binding NewPasswordCommand}"/>
-    </Grid>
+    <ContentControl Content="{Binding CurrentScreen}"/>
 </UserControl>

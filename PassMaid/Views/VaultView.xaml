@@ -9,6 +9,20 @@
              UseLayoutRounding="True"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type vm:DisplayPasswordViewModel}">
+            <local:DisplayPasswordView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:EditPasswordViewModel}">
+            <local:EditPasswordView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:NewPasswordViewModel}">
+            <local:NewPasswordView/>
+        </DataTemplate>
+    </UserControl.Resources>
     
     <Grid>
         <Grid.ColumnDefinitions>
@@ -16,11 +30,18 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
         <!-- Left Side -->
-        <ListBox ItemsSource="{Binding Passwords}" Grid.Column="0" HorizontalContentAlignment="Stretch" SelectedItem="{Binding SelectedPasswordModel}">
+        <ListBox ItemsSource="{Binding Passwords}" SelectedItem="{Binding SelectedPasswordModel}" Grid.Column="0" Grid.Row="0" 
+                 HorizontalContentAlignment="Stretch" Margin="5 5 5 0">
             <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDoubleClick">
-                    <i:InvokeCommandAction Command="{Binding EditCommand}"/>
+                <!-- Mouse click to update display view -->
+                <i:EventTrigger EventName="MouseLeftButtonUp">
+                    <i:InvokeCommandAction Command="{Binding DisplayCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
@@ -34,51 +55,18 @@
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="225"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Text="{Binding Name}" Grid.Row="0" Grid.Column="0" Margin="10 0"/>
-                        <TextBlock Text="{Binding Website}" FontSize="11" Grid.Row="1" Grid.Column="0" Margin="10 0"/>
+                        <TextBlock Text="{Binding Website}" FontSize="11" Foreground="DimGray" Grid.Row="1" Grid.Column="0" Margin="10 0"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
+        <Button Command="{Binding NewPasswordCommand}" Content="New Password" Grid.Column="0" Grid.Row="1" Margin="5"/>
+
         <!-- Right Side -->
-        <Grid Grid.Column="1" Margin="10 0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <GroupBox Header="Password Information" Grid.Row="0" Padding="15">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="Name:" Foreground="DimGray"/>
-                        <TextBox Text="{Binding SelectedName}" Width="400" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent"/>
-
-                        <Separator Margin="0 0 0 25"/>
-
-                        <TextBlock Text="Website:" Foreground="DimGray"/>
-                        <TextBox Text="{Binding SelectedWebsite}" Width="400" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent"/>
-
-                        <Separator Margin="0 0 0 25"/>
-
-                        <TextBlock Text="Username:" Foreground="DimGray"/>
-                        <TextBox Text="{Binding SelectedUsername}" Width="400" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent"/>
-
-                        <Separator Margin="0 0 0 25"/>
-
-                        <TextBlock Text="Password:" Foreground="DimGray"/>
-                        <TextBox Text="{Binding SelectedPassword}" Width="400" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent"/>
-
-                        <Separator Margin="0 0 0 25"/>
-
-                        <Button Content="Edit" Grid.Row="1" Width="100" Height="25" Margin="5"/>
-                    </StackPanel>
-                </GroupBox>
-            </ScrollViewer>
-        </Grid>
+        <ContentControl Content="{Binding PassScreenType}" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"/>
     </Grid>
 </UserControl>

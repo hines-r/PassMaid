@@ -11,97 +11,24 @@ namespace PassMaid.ViewModels
 {
     public class VaultViewModel : Screen
     {
-        private string _selectedName;
-        private string _selectedWebsite;
-        private string _selectedUsername;
-        private string _selectedPassword;
-
+        private Screen _passScreenType;
         private PasswordModel _selectedPasswordModel;
 
         public BindableCollection<PasswordModel> Passwords { get; set; }
 
         public VaultViewModel()
         {
-            // TODO: Securely store password hash and load in from a secure location
-
-            // Temp code
-            Passwords = new BindableCollection<PasswordModel>
-            {
-                new PasswordModel()
-                {
-                    Name = "Password for a random website",
-                    Website = "www.website.com",
-                    Username = "username",
-                    Password = "password"
-                },
-                new PasswordModel()
-                {
-                    Name = "Password for a random website",
-                    Website = "www.website.com",
-                    Username = "username",
-                    Password = "password"
-                },
-                new PasswordModel()
-                {
-                    Name = "Password for a random website",
-                    Website = "www.website.com",
-                    Username = "username",
-                    Password = "password"
-                },
-                new PasswordModel()
-                {
-                    Name = "Password for a random website",
-                    Website = "www.website.com",
-                    Username = "username",
-                    Password = "password"
-                },
-                new PasswordModel()
-                {
-                    Name = "Password for a random website",
-                    Website = "www.website.com",
-                    Username = "username",
-                    Password = "password"
-                }
-            };
+            Passwords = new BindableCollection<PasswordModel>(SqliteDataAcess.LoadPasswords());
+            PassScreenType = new DisplayPasswordViewModel(null, this);
         }
 
-        public string SelectedName
+        public Screen PassScreenType
         {
-            get { return _selectedName; }
+            get { return _passScreenType; }
             set
             {
-                _selectedName = value;
-                NotifyOfPropertyChange(() => SelectedName);
-            }
-        }
-
-        public string SelectedWebsite
-        {
-            get { return _selectedWebsite; }
-            set
-            {
-                _selectedWebsite = value;
-                NotifyOfPropertyChange(() => SelectedWebsite);
-            }
-        }
-
-        public string SelectedUsername
-        {
-            get { return _selectedUsername; }
-            set
-            {
-                _selectedUsername = value;
-                NotifyOfPropertyChange(() => SelectedUsername);
-            }
-        }
-
-        public string SelectedPassword
-        {
-            get { return _selectedPassword; }
-            set
-            {
-                _selectedPassword = value;
-                NotifyOfPropertyChange(() => SelectedPassword);
+                _passScreenType = value;
+                NotifyOfPropertyChange(() => PassScreenType);
             }
         }
 
@@ -111,31 +38,25 @@ namespace PassMaid.ViewModels
             set
             {
                 _selectedPasswordModel = value;
-
-                if (SelectedPasswordModel != null)
-                {
-                    SelectedName = SelectedPasswordModel.Name;
-                    SelectedWebsite = SelectedPasswordModel.Website;
-                    SelectedUsername = SelectedPasswordModel.Username;
-                    SelectedPassword = SelectedPasswordModel.Password;
-                }
-
                 NotifyOfPropertyChange(() => SelectedPasswordModel);
             }
         }
 
-        public ICommand EditCommand => new RelayCommand(ExecuteEdit);
+        public ICommand DisplayCommand => new RelayCommand(ExecuteDisplay);
 
-        public void ExecuteEdit(object o)
+        public void ExecuteDisplay(object o)
         {
-            var parent = this.Parent as VaultTabViewModel;
+            PassScreenType = new DisplayPasswordViewModel(SelectedPasswordModel, this);
+        }
 
-            EditPasswordViewModel editVM = new EditPasswordViewModel(SelectedPasswordModel, this)
+        public ICommand NewPasswordCommand => new RelayCommand(ExecuteNewPassword);
+
+        public void ExecuteNewPassword(object o)
+        {
+            PassScreenType = new NewPasswordViewModel(SelectedPasswordModel, this)
             {
-                Parent = parent
+                Parent = this
             };
-
-            parent.CurrentScreen = editVM; // Goes to edit view
         }
     }
 }

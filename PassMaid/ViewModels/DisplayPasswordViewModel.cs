@@ -11,13 +11,8 @@ namespace PassMaid.ViewModels
 {
     public class DisplayPasswordViewModel : PasswordScreen
     {
-        private VaultViewModel VaultVM { get; set; }
-
-        public DisplayPasswordViewModel(PasswordModel _selectedPassword, VaultViewModel _vaultViewModel)
+        public DisplayPasswordViewModel(PasswordModel _selectedPassword, VaultViewModel _vaultViewModel) : base(_selectedPassword, _vaultViewModel)
         {
-            this.SelectedPassword = _selectedPassword;
-            this.VaultVM = _vaultViewModel;
-
             if (SelectedPassword != null)
             {
                 this.Name = SelectedPassword.Name;
@@ -31,10 +26,7 @@ namespace PassMaid.ViewModels
 
         public void ExecuteEdit(object o)
         {
-            VaultVM.PassScreenType = new EditPasswordViewModel(SelectedPassword, VaultVM)
-            {
-                Parent = this
-            };
+            VaultVM.PassScreenType = new EditPasswordViewModel(SelectedPassword, VaultVM);
         }
     }
 }

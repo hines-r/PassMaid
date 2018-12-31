@@ -17,6 +17,14 @@ namespace PassMaid.ViewModels
 
         private PasswordModel _selectedPassword;
 
+        protected PasswordScreen(PasswordModel _selectedPassword, VaultViewModel _vaultViewModel)
+        {
+            SelectedPassword = _selectedPassword;
+            VaultVM = _vaultViewModel;
+        }
+
+        public VaultViewModel VaultVM { get; private set; }
+
         public string Name
         {
             get { return _name; }
