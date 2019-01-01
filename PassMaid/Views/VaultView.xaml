@@ -37,7 +37,8 @@
 
         <!-- Left Side -->
         <ListBox ItemsSource="{Binding Passwords}" SelectedItem="{Binding SelectedPasswordModel}" Grid.Column="0" Grid.Row="0" 
-                 HorizontalContentAlignment="Stretch" Margin="5 5 5 0">
+                 HorizontalContentAlignment="Stretch" BorderThickness="1" 
+                 BorderBrush="{DynamicResource AccentColorBrush}" Margin="5 0" Padding="0 5">
             <i:Interaction.Triggers>
                 <!-- Mouse click to update display view -->
                 <i:EventTrigger EventName="MouseLeftButtonUp">
@@ -58,7 +59,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Text="{Binding Name}" Grid.Row="0" Grid.Column="0" Margin="10 0"/>
-                        <TextBlock Text="{Binding Website}" FontSize="11" Foreground="DimGray" Grid.Row="1" Grid.Column="0" Margin="10 0"/>
+                        <TextBlock Text="{Binding Website}" FontSize="11" Foreground="DarkGray" Grid.Row="1" Grid.Column="0" Margin="10 0"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
