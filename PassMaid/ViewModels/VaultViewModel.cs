@@ -11,6 +11,8 @@ namespace PassMaid.ViewModels
 {
     public class VaultViewModel : Screen
     {
+        private string _searchString;
+
         private Screen _passScreenType;
         private PasswordModel _selectedPasswordModel;
 
@@ -20,6 +22,17 @@ namespace PassMaid.ViewModels
         {
             Passwords = new BindableCollection<PasswordModel>(SqliteDataAcess.LoadPasswords());
             PassScreenType = new DisplayPasswordViewModel(null, this);
+        }
+
+        public string SearchString
+        {
+           get { return _searchString; }
+           set
+            {
+                _searchString = value;
+                NotifyOfPropertyChange(() => SearchString);
+                NotifyOfPropertyChange(() => FilteredPasswords);
+            }
         }
 
         public Screen PassScreenType
@@ -39,6 +52,19 @@ namespace PassMaid.ViewModels
             {
                 _selectedPasswordModel = value;
                 NotifyOfPropertyChange(() => SelectedPasswordModel);
+            }
+        }
+
+        public IEnumerable<PasswordModel> FilteredPasswords
+        {
+            get
+            {
+                if (SearchString == null)
+                {
+                    return Passwords;
+                }
+
+                return Passwords.Where(x => x.Name.ToLower().Contains(SearchString.ToLower()));
             }
         }
 

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:PassMaid.Views"
              xmlns:vm="clr-namespace:PassMaid.ViewModels"
@@ -31,14 +32,18 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="26"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
         <!-- Left Side -->
-        <ListBox ItemsSource="{Binding Passwords}" SelectedItem="{Binding SelectedPasswordModel}" Grid.Column="0" Grid.Row="0" 
+        <TextBox Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row="0" Margin="5 0" BorderBrush="{DynamicResource AccentColorBrush}"
+                 Controls:TextBoxHelper.ClearTextButton="True"/>
+
+        <ListBox ItemsSource="{Binding FilteredPasswords}" SelectedItem="{Binding SelectedPasswordModel}" Grid.Column="0" Grid.Row="1" 
                  HorizontalContentAlignment="Stretch" BorderThickness="1" 
-                 BorderBrush="{DynamicResource AccentColorBrush}" Margin="5 0" Padding="0 5">
+                 BorderBrush="{DynamicResource AccentColorBrush}" Margin="5 5 5 0">
             <i:Interaction.Triggers>
                 <!-- Mouse click to update display view -->
                 <i:EventTrigger EventName="MouseLeftButtonUp">
@@ -65,9 +70,9 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Button Command="{Binding NewPasswordCommand}" Content="New Password" Grid.Column="0" Grid.Row="1" Margin="5"/>
+        <Button Command="{Binding NewPasswordCommand}" Content="New Password" Grid.Column="0" Grid.Row="2" Margin="5"/>
 
         <!-- Right Side -->
-        <ContentControl Content="{Binding PassScreenType}" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"/>
+        <ContentControl Content="{Binding PassScreenType}" Grid.Column="1" Grid.Row="0" Grid.RowSpan="3"/>
     </Grid>
 </UserControl>
