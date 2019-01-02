@@ -45,6 +45,7 @@
             Grid.Column="0"
             Margin="5,0"
             Controls:TextBoxHelper.ClearTextButton="True"
+            Controls:TextBoxHelper.Watermark="Search..."
             BorderBrush="{DynamicResource AccentColorBrush}"
             Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}" />
 
