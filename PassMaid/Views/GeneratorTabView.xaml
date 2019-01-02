@@ -1,146 +1,265 @@
-﻿<UserControl x:Class="PassMaid.Views.GeneratorTabView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
-             xmlns:local="clr-namespace:PassMaid.Views"
-             xmlns:utils="clr-namespace:PassMaid.Utils"
-             mc:Ignorable="d" 
-             d:DesignHeight="350" d:DesignWidth="550">
+﻿<UserControl
+    x:Class="PassMaid.Views.GeneratorTabView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:local="clr-namespace:PassMaid.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:utils="clr-namespace:PassMaid.Utils"
+    d:DesignHeight="350"
+    d:DesignWidth="550"
+    mc:Ignorable="d">
 
     <UserControl.Resources>
-        <ObjectDataProvider x:Key="hashTypeEnum" MethodName="GetValues" ObjectType="{x:Type system:Enum}">
+        <ObjectDataProvider
+            x:Key="hashTypeEnum"
+            MethodName="GetValues"
+            ObjectType="{x:Type system:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type Type="utils:HashType"/>
+                <x:Type Type="utils:HashType" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
 
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
 
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
 
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
 
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- Generator -->
-        <TextBlock Text="Password Generator:" Grid.Row="0" Grid.Column="0" Margin="5"/>
+        <!--  Generator  -->
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="5"
+            Text="Password Generator:" />
 
-        <TextBox Text="{Binding GenPassword, Mode=TwoWay}" Grid.Row="1" Grid.Column="0" Margin="5 0"/>
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="5,0"
+            Text="{Binding GenPassword, Mode=TwoWay}" />
 
-        <Button Content="Generate" Grid.Row="1" Grid.Column="1" Margin="5 0"
-                Command="{Binding GeneratePasswordCommand}"/>
+        <Button
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="5,0"
+            Command="{Binding GeneratePasswordCommand}"
+            Content="Generate" />
 
 
-        <!-- Options -->
-        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="0 0 0 15">
+        <!--  Options  -->
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="0,0,0,15"
+            Orientation="Horizontal">
 
-            <!-- Length -->
-            <TextBlock Text="Length:" FontSize="12" VerticalAlignment="Center" Margin="5"/>
+            <!--  Length  -->
+            <TextBlock
+                Margin="5"
+                VerticalAlignment="Center"
+                FontSize="12"
+                Text="Length:" />
 
-            <TextBox Text="{Binding LengthOfPassword, Mode=TwoWay}" Width="30" Margin="0 5 10 5"/>
+            <TextBox
+                Width="30"
+                Margin="0,5,10,5"
+                Text="{Binding LengthOfPassword, Mode=TwoWay}" />
 
-            <Separator Height="18" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
+            <Separator Height="18" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
 
-            <!-- A-Z -->
-            <TextBlock Text="A-Z" FontSize="12" VerticalAlignment="Center" Margin="5"/>
+            <!--  A-Z  -->
+            <TextBlock
+                Margin="5"
+                VerticalAlignment="Center"
+                FontSize="12"
+                Text="A-Z" />
 
-            <CheckBox Margin="0 5 10 5" IsChecked="{Binding IncludeUppercase, Mode=TwoWay}" VerticalAlignment="Center"/>
+            <CheckBox
+                Margin="0,5,10,5"
+                VerticalAlignment="Center"
+                IsChecked="{Binding IncludeUppercase, Mode=TwoWay}" />
 
-            <Separator Height="18" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
+            <Separator Height="18" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
 
-            <!-- a-z -->
-            <TextBlock Text="a-z" FontSize="12" VerticalAlignment="Center" Margin="5"/>
+            <!--  a-z  -->
+            <TextBlock
+                Margin="5"
+                VerticalAlignment="Center"
+                FontSize="12"
+                Text="a-z" />
 
-            <CheckBox Margin="0 5 10 5" IsChecked="{Binding IncludeLowercase, Mode=TwoWay}" VerticalAlignment="Center"/>
+            <CheckBox
+                Margin="0,5,10,5"
+                VerticalAlignment="Center"
+                IsChecked="{Binding IncludeLowercase, Mode=TwoWay}" />
 
-            <Separator Height="18" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
+            <Separator Height="18" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
 
-            <!-- 0-9 -->
-            <TextBlock Text="0-9" FontSize="12" VerticalAlignment="Center" Margin="5"/>
+            <!--  0-9  -->
+            <TextBlock
+                Margin="5"
+                VerticalAlignment="Center"
+                FontSize="12"
+                Text="0-9" />
 
-            <CheckBox Margin="0 5 10 5" IsChecked="{Binding IncludeNumeric, Mode=TwoWay}" VerticalAlignment="Center"/>
+            <CheckBox
+                Margin="0,5,10,5"
+                VerticalAlignment="Center"
+                IsChecked="{Binding IncludeNumeric, Mode=TwoWay}" />
 
-            <Separator Height="18" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
+            <Separator Height="18" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
 
-            <!-- Special -->
-            <TextBlock Text="!@#$%^&amp;*" FontSize="12" VerticalAlignment="Center" Margin="5"/>
+            <!--  Special  -->
+            <TextBlock
+                Margin="5"
+                VerticalAlignment="Center"
+                FontSize="12"
+                Text="!@#$%^&amp;*" />
 
-            <CheckBox Margin="0 5 10 5" IsChecked="{Binding IncludeSpecial, Mode=TwoWay}" VerticalAlignment="Center"/>
+            <CheckBox
+                Margin="0,5,10,5"
+                VerticalAlignment="Center"
+                IsChecked="{Binding IncludeSpecial, Mode=TwoWay}" />
 
         </StackPanel>
 
 
-        <!-- Password Field -->
-        <TextBlock Text="Password:" Grid.Row="3" Grid.Column="0" Margin="5"/>
+        <!--  Password Field  -->
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="5"
+            Text="Password:" />
 
-        <TextBox Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="0" Margin="5 0">
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="0"
+            Margin="5,0"
+            Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="KeyUp">
-                    <i:InvokeCommandAction Command="{Binding EncryptCommand}"/>
+                    <i:InvokeCommandAction Command="{Binding EncryptCommand}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </TextBox>
 
-        <Button Content="Encrypt" Grid.Row="4" Grid.Column="1" Height="23" Width="65" Margin="5 0"
-                Command="{Binding EncryptCommand}"/>
+        <Button
+            Grid.Row="4"
+            Grid.Column="1"
+            Width="65"
+            Height="23"
+            Margin="5,0"
+            Command="{Binding EncryptCommand}"
+            Content="Encrypt" />
 
 
-        <!-- Encrypted Password Field -->
-        <TextBlock Text="Encrypted Password:" Grid.Row="5" Grid.Column="0" Margin="5"/>
+        <!--  Encrypted Password Field  -->
+        <TextBlock
+            Grid.Row="5"
+            Grid.Column="0"
+            Margin="5"
+            Text="Encrypted Password:" />
 
-        <TextBox Text="{Binding Cipher, Mode=TwoWay}" Grid.Row="6" Grid.Column="0" Height="50" Margin="5 0" TextWrapping ="Wrap" VerticalScrollBarVisibility="Auto"/>
+        <TextBox
+            Grid.Row="6"
+            Grid.Column="0"
+            Height="50"
+            Margin="5,0"
+            Text="{Binding Cipher, Mode=TwoWay}"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Auto" />
 
-        <Button Content="Decrypt" Grid.Row="6" Grid.Column="1" VerticalAlignment="Top" Height="23" Width="65" Margin="5 0"
-                Command="{Binding DecryptCommand}"/>
-        
-        <!-- Hash Field -->
-        <TextBlock Text="Hash:" Grid.Row="7" Margin="5"/>
+        <Button
+            Grid.Row="6"
+            Grid.Column="1"
+            Width="65"
+            Height="23"
+            Margin="5,0"
+            VerticalAlignment="Top"
+            Command="{Binding DecryptCommand}"
+            Content="Decrypt" />
 
-        <TextBox Text="{Binding Hash}" Grid.Row="8" Margin="5 0"/>
+        <!--  Hash Field  -->
+        <TextBlock
+            Grid.Row="7"
+            Margin="5"
+            Text="Hash:" />
 
-        <Button Content="Hash" Grid.Row="8" Grid.Column="1" Height="23" Width="65" Margin="5 0"
-                Command="{Binding HashCommand}"/>
+        <TextBox
+            Grid.Row="8"
+            Margin="5,0"
+            Text="{Binding Hash}" />
 
-        <StackPanel Orientation="Horizontal" Grid.Row="9">
-            <ComboBox x:Name="hashComboBox" Width="100" HorizontalAlignment="Left" Margin="5" 
-                  ItemsSource="{Binding Source={StaticResource hashTypeEnum}}" 
-                  SelectedItem="{Binding SelectedHashType}">
+        <Button
+            Grid.Row="8"
+            Grid.Column="1"
+            Width="65"
+            Height="23"
+            Margin="5,0"
+            Command="{Binding HashCommand}"
+            Content="Hash" />
+
+        <StackPanel Grid.Row="9" Orientation="Horizontal">
+            <ComboBox
+                x:Name="hashComboBox"
+                Width="100"
+                Margin="5"
+                HorizontalAlignment="Left"
+                ItemsSource="{Binding Source={StaticResource hashTypeEnum}}"
+                SelectedItem="{Binding SelectedHashType}">
 
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding HashCommand}"/>
+                        <i:InvokeCommandAction Command="{Binding HashCommand}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
 
-            <TextBlock Text="Status:" VerticalAlignment="Center" Margin="5 0"/>
-            <TextBlock Text="{Binding Status}" VerticalAlignment="Center" />
+            <TextBlock
+                Margin="5,0"
+                VerticalAlignment="Center"
+                Text="Status:" />
+            <TextBlock VerticalAlignment="Center" Text="{Binding Status}" />
         </StackPanel>
 
-        <Button Content="Confirm" Grid.Row="9" Grid.Column="1" Height="23" Width="65" Margin="5 0"
-                Command="{Binding CompareHashCommand}"/>
+        <Button
+            Grid.Row="9"
+            Grid.Column="1"
+            Width="65"
+            Height="23"
+            Margin="5,0"
+            Command="{Binding CompareHashCommand}"
+            Content="Confirm" />
 
-        <Button Content="Clear" Grid.Row="10" Grid.ColumnSpan="2" Height="35" VerticalAlignment="Bottom" Margin="5"
-                Command="{Binding ClearCommand}"/>
+        <Button
+            Grid.Row="10"
+            Grid.ColumnSpan="2"
+            Height="35"
+            Margin="5"
+            VerticalAlignment="Bottom"
+            Command="{Binding ClearCommand}"
+            Content="Clear" />
     </Grid>
 </UserControl>

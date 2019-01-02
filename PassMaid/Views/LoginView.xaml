@@ -1,30 +1,62 @@
-﻿<UserControl x:Class="PassMaid.Views.LoginView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PassMaid.Views"
-             mc:Ignorable="d" 
-             FontSize="18"
-             d:DesignHeight="450" d:DesignWidth="800">
+﻿<UserControl
+    x:Class="PassMaid.Views.LoginView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:PassMaid.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    FontSize="18"
+    mc:Ignorable="d">
 
-    <StackPanel Margin="25 0 25 55" VerticalAlignment="Center">
-        <TextBlock Text="PassMaid" FontSize="55" HorizontalAlignment="Center" Margin="10"/>
+    <StackPanel Margin="25,0,25,55" VerticalAlignment="Center">
+        <TextBlock
+            Margin="10"
+            HorizontalAlignment="Center"
+            FontSize="55"
+            Text="PassMaid" />
 
-        <TextBlock Text="Username" HorizontalAlignment="Center" Margin="5 5 5 10"/>
-        <TextBox Text="{Binding Username}" MinWidth="100" Width="500" TextAlignment="Center" Margin="5 0 5 20"/>
+        <TextBlock
+            Margin="5,5,5,10"
+            HorizontalAlignment="Center"
+            Text="Username" />
+        <TextBox
+            Width="500"
+            MinWidth="100"
+            Margin="5,0,5,20"
+            Text="{Binding Username}"
+            TextAlignment="Center" />
 
-        <TextBlock Text="Password" HorizontalAlignment="Center" Margin="5 5 5 10"/>
-        <PasswordBox PasswordChanged="PasswordBox_PasswordChanged" MinWidth="100" Width="500" HorizontalContentAlignment="Center" Margin="5 0 5 20"/>
+        <TextBlock
+            Margin="5,5,5,10"
+            HorizontalAlignment="Center"
+            Text="Password" />
+        <PasswordBox
+            Width="500"
+            MinWidth="100"
+            Margin="5,0,5,20"
+            HorizontalContentAlignment="Center"
+            PasswordChanged="PasswordBox_PasswordChanged" />
 
-        <Button Content="Login" FontSize="12" Width="100" Height="30" Margin="5 10 5 5"
-                Command="{Binding LoginCommand}"/>
+        <Button
+            Width="100"
+            Height="30"
+            Margin="5,10,5,5"
+            Command="{Binding LoginCommand}"
+            Content="Login"
+            FontSize="12" />
 
-        <Button Content="Create Account" FontSize="12" HorizontalAlignment="Center" Cursor="Hand" Margin="25"
-                Command="{Binding CreateUserCommand}">
+        <Button
+            Margin="25"
+            HorizontalAlignment="Center"
+            Command="{Binding CreateUserCommand}"
+            Content="Create Account"
+            Cursor="Hand"
+            FontSize="12">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <ContentPresenter/>
+                    <ContentPresenter />
                 </ControlTemplate>
             </Button.Template>
         </Button>
