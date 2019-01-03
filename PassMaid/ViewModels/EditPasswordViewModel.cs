@@ -11,8 +11,6 @@ namespace PassMaid.ViewModels
 {
     public class EditPasswordViewModel : PasswordScreen
     {
-        private string _editText;
-
         public EditPasswordViewModel(PasswordModel _selectedPassword, VaultViewModel _vaultViewModel) : base(_selectedPassword, _vaultViewModel)
         {
             if (SelectedPassword != null)
@@ -21,18 +19,6 @@ namespace PassMaid.ViewModels
                 this.Website = SelectedPassword.Website;
                 this.Username = SelectedPassword.Username;
                 this.Password = SelectedPassword.Password;
-            }
-
-            EditText = $"Edit {Name}";
-        }
-
-        public string EditText
-        {
-            get { return _editText; }
-            set
-            {
-                _editText = value;
-                NotifyOfPropertyChange(() => EditText);
             }
         }
 
