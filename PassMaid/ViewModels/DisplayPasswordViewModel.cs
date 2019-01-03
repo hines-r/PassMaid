@@ -26,7 +26,10 @@ namespace PassMaid.ViewModels
 
         public void ExecuteEdit(object o)
         {
-            VaultVM.PassScreenType = new EditPasswordViewModel(SelectedPassword, VaultVM);
+            if (SelectedPassword != null)
+            {
+                VaultVM.PassScreenType = new EditPasswordViewModel(SelectedPassword, VaultVM);
+            }
         }
     }
 }

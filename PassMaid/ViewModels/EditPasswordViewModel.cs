@@ -15,10 +15,13 @@ namespace PassMaid.ViewModels
 
         public EditPasswordViewModel(PasswordModel _selectedPassword, VaultViewModel _vaultViewModel) : base(_selectedPassword, _vaultViewModel)
         {
-            this.Name = SelectedPassword.Name;
-            this.Website = SelectedPassword.Website;
-            this.Username = SelectedPassword.Username;
-            this.Password = SelectedPassword.Password;
+            if (SelectedPassword != null)
+            {
+                this.Name = SelectedPassword.Name;
+                this.Website = SelectedPassword.Website;
+                this.Username = SelectedPassword.Username;
+                this.Password = SelectedPassword.Password;
+            }
 
             EditText = $"Edit {Name}";
         }
