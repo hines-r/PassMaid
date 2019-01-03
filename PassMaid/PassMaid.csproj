@@ -94,6 +94,7 @@
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="SaveSystem\SqliteDataAcess.cs" />
+    <Compile Include="SecureStringExtension.cs" />
     <Compile Include="Utils\CryptoUtil.cs" />
     <Compile Include="Utils\PasswordGenerator.cs" />
     <Compile Include="ViewModels\DisplayPasswordViewModel.cs" />
