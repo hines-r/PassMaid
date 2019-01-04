@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Security;
 using System.Windows.Controls;
+using PassMaid.Models;
 
 namespace PassMaid.ViewModels
 {
@@ -30,10 +31,28 @@ namespace PassMaid.ViewModels
 
         public void ExecuteLogin(object o)
         {
-            // TODO: Check login credentials before successful login
+            if (Username == null || SecurePassword == null)
+            {
+                return;
+            }
 
-            var parentConductor = this.Parent as Conductor<Screen>; // Gets parent conductor (ShellViewModel)
-            parentConductor.ActivateItem(new TabViewModel()); // Sets new active item for ContentControl within the shell view
+            // TODO: Display notification that both fields need to be filled
+
+            UserModel user = new UserModel()
+            {
+                Username = this.Username,
+                Password = this.SecurePassword.GetString()
+            };
+
+            if (SqliteDataAcess.CompareUser(user))
+            {
+                var parentConductor = this.Parent as Conductor<Screen>; // Gets parent conductor (ShellViewModel)
+                parentConductor.ActivateItem(new TabViewModel()); // Sets new active item for ContentControl within the shell view
+            }
+
+            // TODO: Display notification that username or password was incorrect
+
+            user = null;
         }
 
         public ICommand CreateUserCommand => new RelayCommand(ExecuteCreateUser);

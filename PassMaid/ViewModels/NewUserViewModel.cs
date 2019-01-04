@@ -58,13 +58,16 @@ namespace PassMaid.ViewModels
             {
                 string hash = CryptoUtil.ComputeHash(UserPassword, HashType.SHA256, null);
 
-                UserModel user = new UserModel
+                UserModel newUser = new UserModel
                 {
                     Username = UserUsername,
                     Password = hash
                 };
 
-                // TODO: Store user credentials securely using hash/encryption
+                SqliteDataAcess.CreateUser(newUser);
+
+                var parentConductor = this.Parent as Conductor<Screen>;
+                parentConductor.ActivateItem(new LoginViewModel());
             }
         }
 
