@@ -30,6 +30,12 @@ namespace PassMaid.Views
         {
             if (DataContext != null)
             {
+                if (((PasswordBox)sender).SecurePassword.Length <= 0)
+                {
+                    ((LoginViewModel)DataContext).SecurePassword = null;
+                    return;
+                }
+
                 ((LoginViewModel)DataContext).SecurePassword = ((PasswordBox)sender).SecurePassword;
             }
         }

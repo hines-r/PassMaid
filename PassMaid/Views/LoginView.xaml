@@ -11,60 +11,79 @@
     FontSize="18"
     mc:Ignorable="d">
 
-    <StackPanel
-        Margin="25,0,25,55"
+    <Grid
+        Margin="0,0,0,25"
         HorizontalAlignment="Center"
         VerticalAlignment="Center">
-        <TextBlock
-            Margin="10"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
             HorizontalAlignment="Center"
-            FontSize="55"
-            Text="PassMaid" />
+            VerticalAlignment="Center">
+            <TextBlock
+                Margin="10"
+                HorizontalAlignment="Center"
+                FontSize="55"
+                Text="PassMaid" />
+
+            <TextBlock
+                Margin="5,5,5,10"
+                HorizontalAlignment="Center"
+                Text="Username" />
+            <TextBox
+                Width="350"
+                MinWidth="100"
+                Margin="5,0,5,20"
+                Controls:TextBoxHelper.IsWaitingForData="True"
+                Text="{Binding Username}" />
+
+            <TextBlock
+                Margin="5,5,5,10"
+                HorizontalAlignment="Center"
+                Text="Password" />
+            <PasswordBox
+                Width="350"
+                MinWidth="100"
+                Margin="5,0,5,20"
+                Controls:TextBoxHelper.ClearTextButton="{Binding RelativeSource={RelativeSource Self}, Path=(Controls:TextBoxHelper.HasText), Mode=OneWay}"
+                Controls:TextBoxHelper.IsWaitingForData="True"
+                PasswordChanged="PasswordBox_PasswordChanged"
+                Style="{StaticResource MetroButtonRevealedPasswordBox}" />
+
+            <Button
+                Width="100"
+                Height="30"
+                Margin="5,10,5,5"
+                Command="{Binding LoginCommand}"
+                Content="Login"
+                FontSize="12" />
+
+            <Button
+                Margin="25,25,25,0"
+                HorizontalAlignment="Center"
+                Command="{Binding CreateUserCommand}"
+                Content="Create Account"
+                Cursor="Hand"
+                FontSize="12">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <ContentPresenter />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
 
         <TextBlock
-            Margin="5,5,5,10"
+            Grid.Row="1"
             HorizontalAlignment="Center"
-            Text="Username" />
-        <TextBox
-            Width="350"
-            MinWidth="100"
-            Margin="5,0,5,20"
-            Controls:TextBoxHelper.IsWaitingForData="True"
-            Text="{Binding Username}" />
+            VerticalAlignment="Bottom"
+            Foreground="Red"
+            Text="{Binding CredentialStatus}"
+            TextAlignment="Center" />
+    </Grid>
 
-        <TextBlock
-            Margin="5,5,5,10"
-            HorizontalAlignment="Center"
-            Text="Password" />
-        <PasswordBox
-            Width="350"
-            MinWidth="100"
-            Margin="5,0,5,20"
-            Controls:TextBoxHelper.ClearTextButton="{Binding RelativeSource={RelativeSource Self}, Path=(Controls:TextBoxHelper.HasText), Mode=OneWay}"
-            Controls:TextBoxHelper.IsWaitingForData="True"
-            PasswordChanged="PasswordBox_PasswordChanged"
-            Style="{StaticResource MetroButtonRevealedPasswordBox}" />
-
-        <Button
-            Width="100"
-            Height="30"
-            Margin="5,10,5,5"
-            Command="{Binding LoginCommand}"
-            Content="Login"
-            FontSize="12" />
-
-        <Button
-            Margin="25"
-            HorizontalAlignment="Center"
-            Command="{Binding CreateUserCommand}"
-            Content="Create Account"
-            Cursor="Hand"
-            FontSize="12">
-            <Button.Template>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <ContentPresenter />
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-    </StackPanel>
 </UserControl>

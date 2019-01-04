@@ -14,6 +14,7 @@ namespace PassMaid.ViewModels
     public class LoginViewModel : Screen
     {
         private string _username;
+        private string _credentialStatus;
 
         public string Username
         {
@@ -27,16 +28,35 @@ namespace PassMaid.ViewModels
 
         public SecureString SecurePassword { private get; set; }
 
+        public string CredentialStatus
+        {
+            get { return _credentialStatus; }
+            set
+            {
+                _credentialStatus = value;
+                NotifyOfPropertyChange(() => CredentialStatus);
+            }
+        }
+
         public ICommand LoginCommand => new RelayCommand(ExecuteLogin);
 
         public void ExecuteLogin(object o)
         {
-            if (Username == null || SecurePassword == null)
+            if (String.IsNullOrEmpty(Username) && SecurePassword == null)
             {
+                CredentialStatus = "Please input your username and password";
                 return;
             }
-
-            // TODO: Display notification that both fields need to be filled
+            else if (String.IsNullOrEmpty(Username))
+            {
+                CredentialStatus = "Please input your username";
+                return;
+            }
+            else if (SecurePassword == null)
+            {
+                CredentialStatus = "Please input your password";
+                return;
+            }
 
             UserModel user = new UserModel()
             {
@@ -49,8 +69,10 @@ namespace PassMaid.ViewModels
                 var parentConductor = this.Parent as Conductor<Screen>; // Gets parent conductor (ShellViewModel)
                 parentConductor.ActivateItem(new TabViewModel()); // Sets new active item for ContentControl within the shell view
             }
-
-            // TODO: Display notification that username or password was incorrect
+            else
+            {
+                CredentialStatus = "Incorrect username or password";
+            }
 
             user = null;
         }
