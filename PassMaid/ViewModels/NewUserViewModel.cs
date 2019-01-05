@@ -5,6 +5,7 @@ using PassMaid.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -36,7 +37,7 @@ namespace PassMaid.ViewModels
                 NotifyOfPropertyChange(() => UserPassword);
             }
         }
-        
+
         public string ConfirmUserPassword
         {
             get { return _confirmUserPassword; }
@@ -56,12 +57,24 @@ namespace PassMaid.ViewModels
             // Checks to see if both passwords match before creating a new user
             if (UserPassword == ConfirmUserPassword)
             {
-                string hash = CryptoUtil.ComputeHash(UserPassword, HashType.SHA256, null);
+                byte[] masterKey = CryptoUtil.GenerateByteArray(32);
+
+                byte[] salt = CryptoUtil.GenerateByteArray(32);
+                byte[] IV = CryptoUtil.GenerateByteArray(16);
+
+                byte[] keyEncryptionKey = CryptoUtil.ComputePBKDF2Hash(UserPassword, salt);
+                string encryptedMasterKey = CryptoUtil.Encrypt(Convert.ToBase64String(masterKey), keyEncryptionKey, IV);
+
+                Console.WriteLine($"{UserUsername} - Master Key: {Convert.ToBase64String(masterKey)}");
+                Console.WriteLine($"{UserUsername} - Key Encryption Key: {Convert.ToBase64String(keyEncryptionKey)}");
+                Console.WriteLine($"{UserUsername} - Encrypted Master Key: {encryptedMasterKey}");
 
                 UserModel newUser = new UserModel
                 {
                     Username = UserUsername,
-                    Password = hash
+                    Password = encryptedMasterKey,
+                    Salt = Convert.ToBase64String(salt),
+                    IV = Convert.ToBase64String(IV)
                 };
 
                 SqliteDataAcess.CreateUser(newUser);

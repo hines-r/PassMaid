@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Security;
 using System.Windows.Controls;
 using PassMaid.Models;
+using PassMaid.Utils;
 
 namespace PassMaid.ViewModels
 {
@@ -64,7 +65,7 @@ namespace PassMaid.ViewModels
                 Password = this.SecurePassword.GetString()
             };
 
-            if (SqliteDataAcess.CompareUser(user))
+            if (SqliteDataAcess.AuthenticateUser(user))
             {
                 var parentConductor = this.Parent as Conductor<Screen>; // Gets parent conductor (ShellViewModel)
                 parentConductor.ActivateItem(new TabViewModel()); // Sets new active item for ContentControl within the shell view

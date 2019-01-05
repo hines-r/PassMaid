@@ -23,20 +23,38 @@ namespace PassMaid
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                cnn.Execute("INSERT INTO User (Username, Password) VALUES (@Username, @Password)", user);
+                cnn.Execute("INSERT INTO User (Username, Password, Salt, IV) VALUES (@Username, @Password, @Salt, @IV)", user);
             }
         }
 
-        public static bool CompareUser(UserModel user)
+        public static bool AuthenticateUser(UserModel userToLogin)
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                var dbUser = cnn.Query<UserModel>("SELECT * FROM User WHERE Username = @Username", user).FirstOrDefault();
+                var dbUser = cnn.Query<UserModel>("SELECT * FROM User WHERE Username = @Username", userToLogin).FirstOrDefault();
 
                 if (dbUser != null)
                 {
-                    if (CryptoUtil.CompareHash(user.Password, dbUser.Password, HashType.SHA256))
+                    byte[] salt = Convert.FromBase64String(dbUser.Salt);
+                    byte[] initializationVector = Convert.FromBase64String(dbUser.IV);
+
+                    byte[] keyEncryptionKey = CryptoUtil.ComputePBKDF2Hash(userToLogin.Password, salt);
+                    byte[] storedKeyEncryptionKey = CryptoUtil.ComputePBKDF2Hash(dbUser.Password, salt);
+
+                    string keyEncryptionKeyStr = Convert.ToBase64String(keyEncryptionKey);
+                    string storedKeyEncryptionKeyStr = Convert.ToBase64String(keyEncryptionKey);
+
+                    Console.WriteLine("Login attempt key: " + keyEncryptionKeyStr);
+                    Console.WriteLine("Stored key: " + storedKeyEncryptionKeyStr);
+
+                    if (keyEncryptionKeyStr == storedKeyEncryptionKeyStr)
                     {
+                        string encryptedMasterKey = dbUser.Password;
+                        string decryptedMasterKey = CryptoUtil.Decrypt(encryptedMasterKey, keyEncryptionKey, initializationVector);
+
+                        Console.WriteLine("Encrypted Master Key: " + encryptedMasterKey);
+                        Console.WriteLine("Decrypted Master Key: " + decryptedMasterKey);
+
                         CurrentUser = dbUser;
                         return true;
                     }
