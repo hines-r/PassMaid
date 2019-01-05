@@ -212,8 +212,8 @@ namespace PassMaid.ViewModels
         {
             if (!String.IsNullOrEmpty(Password))
             {
-                string encryptedPassword = CryptoUtil.Encrypt(Password);
-                Cipher = encryptedPassword;
+                //string encryptedPassword = CryptoUtil.Encrypt(Password);
+                //Cipher = encryptedPassword;
             }
             else
             {
@@ -227,8 +227,8 @@ namespace PassMaid.ViewModels
         {
             if (Cipher != null)
             {
-                string decryptedPassword = CryptoUtil.Decrypt(Cipher);
-                Password = decryptedPassword;
+                //string decryptedPassword = CryptoUtil.Decrypt(Cipher);
+                //Password = decryptedPassword;
             }
         }
 
