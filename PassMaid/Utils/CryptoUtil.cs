@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PassMaid.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -16,22 +17,6 @@ namespace PassMaid.Utils
 
     public static class CryptoUtil
     {
-        private static AesCryptoServiceProvider aes;
-
-        static CryptoUtil()
-        {
-            aes = new AesCryptoServiceProvider
-            {
-                BlockSize = 128,
-                KeySize = 256
-            };
-
-            aes.GenerateKey();
-            aes.GenerateIV();
-            aes.Mode = CipherMode.CBC;
-            aes.Padding = PaddingMode.PKCS7;
-        }
-
         public static string ComputeHash(string plainText, HashType hash, byte[] salt)
         {
             int minSaltLength = 8;
@@ -133,23 +118,76 @@ namespace PassMaid.Utils
             return (hashValue == newHash);
         }
 
-        public static string Encrypt(string clearText)
+        public static byte[] ComputePBKDF2Hash(string password, byte[] salt)
         {
-            ICryptoTransform transform = aes.CreateEncryptor();
-            byte[] encryptedBytes = transform.TransformFinalBlock(ASCIIEncoding.ASCII.GetBytes(clearText), 0, clearText.Length);
-            string encryptedText = Convert.ToBase64String(encryptedBytes);
+            int iterations = 100000;
+            byte[] saltBytes;
 
-            return encryptedText;
+            if (salt != null)
+            {
+                saltBytes = salt;
+            }
+            else
+            {
+                saltBytes = GenerateByteArray(32);
+            }
+
+            byte[] bytes;
+            using (var deriveBytes = new Rfc2898DeriveBytes(password, saltBytes, iterations, HashAlgorithmName.SHA256))
+            {
+                bytes = deriveBytes.GetBytes(32);
+                return bytes;
+            }
         }
 
-        public static string Decrypt(string cipher)
+        public static byte[] GenerateByteArray(int length)
         {
-            ICryptoTransform transform = aes.CreateDecryptor();
-            byte[] encryptedBytes = Convert.FromBase64String(cipher);
-            byte[] decryptedBytes = transform.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
-            string decryptedText = ASCIIEncoding.ASCII.GetString(decryptedBytes);
+            byte[] salt = new byte[length];
 
-            return decryptedText;
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                rng.GetBytes(salt);
+                return salt;
+            }
+        }
+
+        public static string Encrypt(string clearText, byte[] key, byte[] IV)
+        {
+            using (AesCryptoServiceProvider aes = new AesCryptoServiceProvider())
+            {
+                aes.BlockSize = 128;
+                aes.KeySize = 256;
+                aes.Key = key;
+                aes.IV = IV;
+                aes.Mode = CipherMode.CBC;
+                aes.Padding = PaddingMode.PKCS7;
+
+                ICryptoTransform transform = aes.CreateEncryptor();
+                byte[] encryptedBytes = transform.TransformFinalBlock(ASCIIEncoding.ASCII.GetBytes(clearText), 0, clearText.Length);
+                string encryptedText = Convert.ToBase64String(encryptedBytes);
+
+                return encryptedText;
+            }
+        }
+
+        public static string Decrypt(string cipher, byte[] key, byte[] IV)
+        {
+            using (AesCryptoServiceProvider aes = new AesCryptoServiceProvider())
+            {
+                aes.BlockSize = 128;
+                aes.KeySize = 256;
+                aes.Key = key;
+                aes.IV = IV;
+                aes.Mode = CipherMode.CBC;
+                aes.Padding = PaddingMode.PKCS7;
+
+                ICryptoTransform transform = aes.CreateDecryptor();
+                byte[] encryptedBytes = Convert.FromBase64String(cipher);
+                byte[] decryptedBytes = transform.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
+                string decryptedText = ASCIIEncoding.ASCII.GetString(decryptedBytes);
+
+                return decryptedText;
+            }
         }
     }
 }
