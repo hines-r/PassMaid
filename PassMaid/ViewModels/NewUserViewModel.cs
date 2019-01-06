@@ -77,7 +77,7 @@ namespace PassMaid.ViewModels
                     IV = Convert.ToBase64String(IV)
                 };
 
-                SqliteDataAcess.CreateUser(newUser);
+                SQLiteDataAccess.CreateUser(newUser);
 
                 var parentConductor = this.Parent as Conductor<Screen>;
                 parentConductor.ActivateItem(new LoginViewModel());

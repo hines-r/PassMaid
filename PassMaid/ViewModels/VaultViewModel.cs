@@ -20,7 +20,7 @@ namespace PassMaid.ViewModels
 
         public VaultViewModel()
         {
-            Passwords = new BindableCollection<PasswordModel>(SqliteDataAcess.LoadPasswords());
+            Passwords = new BindableCollection<PasswordModel>(SQLiteDataAccess.LoadPasswords());
             PassScreenType = new DisplayPasswordViewModel(null, this);
         }
 

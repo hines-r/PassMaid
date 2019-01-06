@@ -36,7 +36,7 @@ namespace PassMaid.ViewModels
             };
 
             VaultVM.Passwords.Add(newPassword);
-            SqliteDataAcess.SavePassword(newPassword);
+            SQLiteDataAccess.SavePassword(newPassword);
 
             VaultVM.PassScreenType = new DisplayPasswordViewModel(SelectedPassword, VaultVM);
         }

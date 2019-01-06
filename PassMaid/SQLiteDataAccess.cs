@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace PassMaid
 {
-    public static class SqliteDataAcess
+    public static class SQLiteDataAccess
     {
         // The currently logged in user
         public static UserModel CurrentUser { get; set; }

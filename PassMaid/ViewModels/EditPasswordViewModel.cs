@@ -31,7 +31,7 @@ namespace PassMaid.ViewModels
             VaultVM.SelectedPasswordModel.Username = this.Username;
             VaultVM.SelectedPasswordModel.Password = this.Password;
 
-            SqliteDataAcess.UpdatePassword(VaultVM.SelectedPasswordModel);
+            SQLiteDataAccess.UpdatePassword(VaultVM.SelectedPasswordModel);
             VaultVM.PassScreenType = new DisplayPasswordViewModel(SelectedPassword, VaultVM);
         }
 
@@ -46,7 +46,7 @@ namespace PassMaid.ViewModels
 
         public void ExecuteDelete(object o)
         {
-            SqliteDataAcess.DeletePassword(VaultVM.SelectedPasswordModel);
+            SQLiteDataAccess.DeletePassword(VaultVM.SelectedPasswordModel);
             VaultVM.Passwords.Remove(VaultVM.SelectedPasswordModel);
 
             VaultVM.PassScreenType = new DisplayPasswordViewModel(null, VaultVM);
