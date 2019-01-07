@@ -17,6 +17,8 @@ namespace PassMaid.Utils
 
     public static class CryptoUtil
     {
+        public static byte[] MasterKey { get; set; }
+
         public static string ComputeHash(string plainText, HashType hash, byte[] salt)
         {
             int minSaltLength = 8;
