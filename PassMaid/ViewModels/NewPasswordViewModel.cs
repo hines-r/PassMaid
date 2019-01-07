@@ -4,6 +4,7 @@ using PassMaid.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -27,12 +28,16 @@ namespace PassMaid.ViewModels
                 return;
             }
 
+            byte[] salt = Convert.FromBase64String(SQLiteDataAccess.CurrentUser.Salt);
+            byte[] initializationVector = Convert.FromBase64String(SQLiteDataAccess.CurrentUser.IV);
+            byte[] masterKey = CryptoUtil.MasterKey;
+
             PasswordModel newPassword = new PasswordModel()
             {
                 Name = this.Name,
                 Website = this.Website,
                 Username = this.Username,
-                Password = CryptoUtil.ComputeHash(this.Password, HashType.SHA256, null) // Stores hash
+                Password = CryptoUtil.Encrypt(this.Password, masterKey, initializationVector)
             };
 
             VaultVM.Passwords.Add(newPassword);
