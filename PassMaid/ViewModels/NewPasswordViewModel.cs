@@ -40,9 +40,15 @@ namespace PassMaid.ViewModels
                 Password = CryptoUtil.Encrypt(this.Password, masterKey, initializationVector)
             };
 
-            VaultVM.Passwords.Add(newPassword);
+            // Places the new PasswordModel into the database with the encrypted password
             SQLiteDataAccess.SavePassword(newPassword);
 
+            // TODO: Place this password into a secure string
+            // Sets password for the bindable collection to the decrypted version
+            newPassword.Password = this.Password;
+            VaultVM.Passwords.Add(newPassword);
+
+            // After saving, goes back to the basic display view of the selected password
             VaultVM.PassScreenType = new DisplayPasswordViewModel(SelectedPassword, VaultVM);
         }
 
