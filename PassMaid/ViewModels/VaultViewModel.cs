@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using PassMaid.Models;
+using PassMaid.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,14 +21,24 @@ namespace PassMaid.ViewModels
 
         public VaultViewModel()
         {
-            Passwords = new BindableCollection<PasswordModel>(SQLiteDataAccess.LoadPasswords());
+            List<PasswordModel> dbPasswords = SQLiteDataAccess.LoadPasswords();
+
+            byte[] initializationVector = Convert.FromBase64String(SQLiteDataAccess.CurrentUser.IV);
+            byte[] masterKey = CryptoUtil.MasterKey;
+
+            foreach (PasswordModel p in dbPasswords)
+            {
+                p.Password = CryptoUtil.Decrypt(p.Password, masterKey, initializationVector);
+            }
+
+            Passwords = new BindableCollection<PasswordModel>(dbPasswords);
             PassScreenType = new DisplayPasswordViewModel(null, this);
         }
 
         public string SearchString
         {
-           get { return _searchString; }
-           set
+            get { return _searchString; }
+            set
             {
                 _searchString = value;
                 NotifyOfPropertyChange(() => SearchString);
