@@ -5,6 +5,7 @@ using PassMaid.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,37 +15,18 @@ namespace PassMaid.ViewModels
 {
     public class NewUserViewModel : Screen
     {
-        private string _userUsername;
-        private string _userPassword;
-        private string _confirmUserPassword;
+        private string _username;
 
-        public string UserUsername
+        public SecureString SecurePassword { private get; set; }
+        public SecureString SecureConfirmPassword { private get; set; }
+
+        public string Username
         {
-            get { return _userUsername; }
+            get { return _username; }
             set
             {
-                _userUsername = value;
-                NotifyOfPropertyChange(() => UserUsername);
-            }
-        }
-
-        public string UserPassword
-        {
-            get { return _userPassword; }
-            set
-            {
-                _userPassword = value;
-                NotifyOfPropertyChange(() => UserPassword);
-            }
-        }
-
-        public string ConfirmUserPassword
-        {
-            get { return _confirmUserPassword; }
-            set
-            {
-                _confirmUserPassword = value;
-                NotifyOfPropertyChange(() => ConfirmUserPassword);
+                _username = value;
+                NotifyOfPropertyChange(() => Username);
             }
         }
 
@@ -52,26 +34,44 @@ namespace PassMaid.ViewModels
 
         public void ExecuteCreateUser(object o)
         {
-            if (String.IsNullOrEmpty(UserUsername) || String.IsNullOrEmpty(UserPassword)) return;
+            string newUserPassword = null;
+            string newUserConfirmPassword = null;
+
+            if (SecurePassword != null & SecureConfirmPassword != null)
+            {
+                newUserPassword = SecurePassword.GetString();
+                newUserConfirmPassword = SecureConfirmPassword.GetString();
+            }
+
+            // Checks to see if input fields are empty or null
+            if (String.IsNullOrEmpty(Username) || String.IsNullOrEmpty(newUserPassword) || String.IsNullOrEmpty(newUserConfirmPassword))
+            {
+                return;
+            }
+
+            if (SQLiteDataAccess.DoesUserExist(Username))
+            {
+                return;
+            }
 
             // Checks to see if both passwords match before creating a new user
-            if (UserPassword == ConfirmUserPassword)
+            if (newUserPassword == newUserConfirmPassword)
             {
                 byte[] masterKey = CryptoUtil.GenerateByteArray(32);
 
                 byte[] salt = CryptoUtil.GenerateByteArray(32);
                 byte[] IV = CryptoUtil.GenerateByteArray(16);
 
-                byte[] keyEncryptionKey = CryptoUtil.ComputePBKDF2Hash(UserPassword, salt);
+                byte[] keyEncryptionKey = CryptoUtil.ComputePBKDF2Hash(newUserPassword, salt);
                 string encryptedMasterKey = CryptoUtil.Encrypt(Convert.ToBase64String(masterKey), keyEncryptionKey, IV);
 
-                Console.WriteLine($"{UserUsername} - Master Key: {Convert.ToBase64String(masterKey)}");
-                Console.WriteLine($"{UserUsername} - Key Encryption Key: {Convert.ToBase64String(keyEncryptionKey)}");
-                Console.WriteLine($"{UserUsername} - Encrypted Master Key: {encryptedMasterKey}");
+                Console.WriteLine($"{Username} - Master Key: {Convert.ToBase64String(masterKey)}");
+                Console.WriteLine($"{Username} - Key Encryption Key: {Convert.ToBase64String(keyEncryptionKey)}");
+                Console.WriteLine($"{Username} - Encrypted Master Key: {encryptedMasterKey}");
 
                 UserModel newUser = new UserModel
                 {
-                    Username = UserUsername,
+                    Username = Username,
                     Password = encryptedMasterKey,
                     Salt = Convert.ToBase64String(salt),
                     IV = Convert.ToBase64String(IV)

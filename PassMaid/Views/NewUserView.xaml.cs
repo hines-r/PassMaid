@@ -24,5 +24,33 @@ namespace PassMaid.Views
         {
             InitializeComponent();
         }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null)
+            {
+                if (((PasswordBox)sender).SecurePassword.Length <= 0)
+                {
+                    ((dynamic)DataContext).SecurePassword = null;
+                    return;
+                }
+
+                ((dynamic)DataContext).SecurePassword = ((PasswordBox)sender).SecurePassword;
+            }
+        }
+
+        private void ConfirmPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null)
+            {
+                if (((PasswordBox)sender).SecurePassword.Length <= 0)
+                {
+                    ((dynamic)DataContext).SecureConfirmPassword = null;
+                    return;
+                }
+
+                ((dynamic)DataContext).SecureConfirmPassword = ((PasswordBox)sender).SecurePassword;
+            }
+        }
     }
 }
