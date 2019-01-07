@@ -27,6 +27,21 @@ namespace PassMaid
             }
         }
 
+        public static bool DoesUserExist(string username)
+        {
+            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            {
+                var dbUser = cnn.Query<UserModel>($"SELECT * FROM User WHERE Username = {username}").FirstOrDefault();
+                
+                if (dbUser != null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
         public static bool AuthenticateUser(UserModel userToLogin)
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
@@ -54,6 +69,8 @@ namespace PassMaid
 
                         Console.WriteLine("Encrypted Master Key: " + encryptedMasterKey);
                         Console.WriteLine("Decrypted Master Key: " + decryptedMasterKey);
+
+                        CryptoUtil.MasterKey = Convert.FromBase64String(decryptedMasterKey);
 
                         CurrentUser = dbUser;
                         return true;
