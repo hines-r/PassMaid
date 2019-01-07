@@ -121,7 +121,7 @@ namespace PassMaid
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                cnn.Execute("DELETE FROM Password WHERE Id = @Id", password);
+                cnn.Execute("DELETE FROM Password WHERE PasswordId = @PasswordId", password);
             }
         }
 
