@@ -28,7 +28,7 @@ namespace PassMaid.ViewModels
             foreach (PasswordModel pass in dbPasswords)
             {
                 byte[] passwordBytes = Convert.FromBase64String(pass.Password);
-                pass.Password = CryptoUtil.AES_GCMDecrypt(passwordBytes, masterKey);
+                pass.Password = Encoding.ASCII.GetString(CryptoUtil.AES_GCMDecrypt(passwordBytes, masterKey));
             }
 
             Passwords = new BindableCollection<PasswordModel>(dbPasswords);

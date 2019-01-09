@@ -29,6 +29,10 @@ namespace PassMaid.ViewModels
             }
 
             byte[] masterKey = CryptoUtil.MasterKey;
+            byte[] passwordBytes = ASCIIEncoding.ASCII.GetBytes(this.Password);
+
+            // Convert the encrypted password to a base64 string for storage
+            string passwordToStore = Convert.ToBase64String(CryptoUtil.AES_GCMEncrypt(passwordBytes, masterKey));
 
             // TODO: Check if password contains non-base64 chars
 
@@ -37,7 +41,7 @@ namespace PassMaid.ViewModels
                 Name = this.Name,
                 Website = this.Website,
                 Username = this.Username,
-                Password = CryptoUtil.AES_GCMEncrypt(Convert.FromBase64String(this.Password), masterKey)
+                Password = passwordToStore
             };
 
             // Places the new PasswordModel into the database with the encrypted password

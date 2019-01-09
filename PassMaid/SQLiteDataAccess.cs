@@ -60,13 +60,13 @@ namespace PassMaid
                     // Attempts to decrypt the master key by deriving the key encryption key from the password input
                     try
                     {
-                        string decryptedMasterKey = CryptoUtil.AES_GCMDecrypt(Convert.FromBase64String(dbUser.Password), keyEncryptionKey);
+                        byte[] decryptedMasterKey = CryptoUtil.AES_GCMDecrypt(Convert.FromBase64String(dbUser.Password), keyEncryptionKey);
 
                         Console.WriteLine($"Success! - Welcome {dbUser.Username}! =D");
                         Console.WriteLine($"Encrypted Master Key: {dbUser.Password}");
-                        Console.WriteLine($"Decrypted Master Key: {decryptedMasterKey}");
+                        Console.WriteLine($"Decrypted Master Key: {Convert.ToBase64String(decryptedMasterKey)}");
 
-                        CryptoUtil.MasterKey = Convert.FromBase64String(decryptedMasterKey);
+                        CryptoUtil.MasterKey = decryptedMasterKey;
 
                         CurrentUser = dbUser;
                         return true;

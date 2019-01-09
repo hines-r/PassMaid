@@ -57,8 +57,11 @@ namespace PassMaid.ViewModels
                 byte[] masterKey = CryptoUtil.GenerateByteArray(32);
                 byte[] salt = CryptoUtil.GenerateByteArray(32);
 
+                // Creates the Key Encryption Key derived from the master password using PBKDF2-SHA256
                 byte[] keyEncryptionKey = CryptoUtil.ComputePBKDF2Hash(newUserPassword, salt);
-                string encryptedMasterKey = CryptoUtil.AES_GCMEncrypt(masterKey, keyEncryptionKey);
+
+                // Encrypts the master key using the Key Encryption Key and converts it to a base64 string for storage
+                string encryptedMasterKey = Convert.ToBase64String(CryptoUtil.AES_GCMEncrypt(masterKey, keyEncryptionKey));
 
                 Console.WriteLine($"{Username} - Master Key: {Convert.ToBase64String(masterKey)}");
                 Console.WriteLine($"{Username} - Key Encryption Key: {Convert.ToBase64String(keyEncryptionKey)}");

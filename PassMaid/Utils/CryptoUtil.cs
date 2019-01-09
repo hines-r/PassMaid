@@ -199,7 +199,7 @@ namespace PassMaid.Utils
             }
         }
 
-        public static string AES_GCMEncrypt(byte[] cleartext, byte[] keyBytes)
+        public static byte[] AES_GCMEncrypt(byte[] cleartext, byte[] keyBytes)
         {
             // Create a random nonce byte array
             SecureRandom rng = new SecureRandom();
@@ -223,15 +223,10 @@ namespace PassMaid.Utils
             Array.Copy(nonce, 0, ciphertextWithNonce, 0, nonce.Length);
             Array.Copy(ciphertext, 0, ciphertextWithNonce, nonce.Length, ciphertext.Length);
 
-            Console.WriteLine("Encrypting with AES-GCM...");
-            Console.WriteLine($"Nonce: {Convert.ToBase64String(nonce)}");
-            Console.WriteLine($"Ciphertext: {Convert.ToBase64String(ciphertext)}");
-            Console.WriteLine($"Nonce + Ciphertext: {Convert.ToBase64String(ciphertextWithNonce)}");
-
-            return Convert.ToBase64String(ciphertextWithNonce);
+            return ciphertextWithNonce;
         }
 
-        public static string AES_GCMDecrypt(byte[] cipherWithNonce, byte[] keyBytes)
+        public static byte[] AES_GCMDecrypt(byte[] cipherWithNonce, byte[] keyBytes)
         {
             // Gets nonce and ciphertext
             byte[] nonce = new byte[NONCE_SIZE];
@@ -252,12 +247,7 @@ namespace PassMaid.Utils
             int length = blockCipher.ProcessBytes(ciphertext, 0, ciphertext.Length, cleartext, 0);
             blockCipher.DoFinal(cleartext, length);
 
-            Console.WriteLine("Decrypting AES-GCM...");
-            Console.WriteLine($"Nonce: {Convert.ToBase64String(nonce)}");
-            Console.WriteLine($"Ciphertext: {Convert.ToBase64String(ciphertext)}");
-            Console.WriteLine($"Cleartext: {Convert.ToBase64String(cleartext)}");
-
-            return Convert.ToBase64String(cleartext);
+            return cleartext;
         }
     }
 }

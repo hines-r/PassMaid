@@ -212,10 +212,10 @@ namespace PassMaid.ViewModels
         {
             if (!String.IsNullOrEmpty(Password))
             {
-                byte[] passwordBytes = Convert.FromBase64String(Password);
+                byte[] passwordBytes = ASCIIEncoding.ASCII.GetBytes(Password);
                 byte[] masterKey = CryptoUtil.MasterKey;
 
-                string encryptedPassword = CryptoUtil.AES_GCMEncrypt(passwordBytes, masterKey);
+                string encryptedPassword = Convert.ToBase64String(CryptoUtil.AES_GCMEncrypt(passwordBytes, masterKey));
                 Cipher = encryptedPassword;
             }
             else
@@ -233,7 +233,7 @@ namespace PassMaid.ViewModels
                 byte[] cipherBytes = Convert.FromBase64String(Cipher);
                 byte[] masterKey = CryptoUtil.MasterKey;
 
-                string decryptedPassword = CryptoUtil.AES_GCMDecrypt(cipherBytes, masterKey);
+                string decryptedPassword = ASCIIEncoding.ASCII.GetString(CryptoUtil.AES_GCMDecrypt(cipherBytes, masterKey));
                 Password = decryptedPassword;
             }
         }
