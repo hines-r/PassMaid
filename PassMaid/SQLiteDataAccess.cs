@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Org.BouncyCastle.Crypto;
 using PassMaid.Models;
 using PassMaid.Utils;
 using System;
@@ -7,6 +8,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SQLite;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,7 +25,7 @@ namespace PassMaid
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                cnn.Execute("INSERT INTO User (Username, Password, Salt, IV) VALUES (@Username, @Password, @Salt, @IV)", user);
+                cnn.Execute("INSERT INTO User (Username, Password, Salt) VALUES (@Username, @Password, @Salt)", user);
             }
         }
 
@@ -32,7 +34,7 @@ namespace PassMaid
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
                 var dbUser = cnn.Query<UserModel>($"SELECT * FROM User WHERE Username = {username}").FirstOrDefault();
-                
+
                 if (dbUser != null)
                 {
                     return true;
@@ -51,29 +53,28 @@ namespace PassMaid
                 if (dbUser != null)
                 {
                     byte[] salt = Convert.FromBase64String(dbUser.Salt);
-                    byte[] initializationVector = Convert.FromBase64String(dbUser.IV);
-
                     byte[] keyEncryptionKey = CryptoUtil.ComputePBKDF2Hash(userToLogin.Password, salt);
-                    byte[] storedKeyEncryptionKey = CryptoUtil.ComputePBKDF2Hash(dbUser.Password, salt);
 
-                    string keyEncryptionKeyStr = Convert.ToBase64String(keyEncryptionKey);
-                    string storedKeyEncryptionKeyStr = Convert.ToBase64String(keyEncryptionKey);
+                    Console.WriteLine("Attempting authentication with key: " + Convert.ToBase64String(keyEncryptionKey));
 
-                    Console.WriteLine("Login attempt key: " + keyEncryptionKeyStr);
-                    Console.WriteLine("Stored key: " + storedKeyEncryptionKeyStr);
-
-                    if (keyEncryptionKeyStr == storedKeyEncryptionKeyStr)
+                    // Attempts to decrypt the master key by deriving the key encryption key from the password input
+                    try
                     {
-                        string encryptedMasterKey = dbUser.Password;
-                        string decryptedMasterKey = CryptoUtil.Decrypt(encryptedMasterKey, keyEncryptionKey, initializationVector);
+                        string decryptedMasterKey = CryptoUtil.AES_GCMDecrypt(Convert.FromBase64String(dbUser.Password), keyEncryptionKey);
 
-                        Console.WriteLine("Encrypted Master Key: " + encryptedMasterKey);
-                        Console.WriteLine("Decrypted Master Key: " + decryptedMasterKey);
+                        Console.WriteLine($"Success! - Welcome {dbUser.Username}! =D");
+                        Console.WriteLine($"Encrypted Master Key: {dbUser.Password}");
+                        Console.WriteLine($"Decrypted Master Key: {decryptedMasterKey}");
 
                         CryptoUtil.MasterKey = Convert.FromBase64String(decryptedMasterKey);
 
                         CurrentUser = dbUser;
                         return true;
+                    }
+                    catch (InvalidCipherTextException e)
+                    {
+                        Console.WriteLine("Incorrect username or password! ;_;");
+                        Console.WriteLine(e);
                     }
                 }
 

@@ -23,12 +23,12 @@ namespace PassMaid.ViewModels
         {
             List<PasswordModel> dbPasswords = SQLiteDataAccess.LoadPasswords();
 
-            byte[] initializationVector = Convert.FromBase64String(SQLiteDataAccess.CurrentUser.IV);
             byte[] masterKey = CryptoUtil.MasterKey;
 
-            foreach (PasswordModel p in dbPasswords)
+            foreach (PasswordModel pass in dbPasswords)
             {
-                p.Password = CryptoUtil.Decrypt(p.Password, masterKey, initializationVector);
+                byte[] passwordBytes = Convert.FromBase64String(pass.Password);
+                pass.Password = CryptoUtil.AES_GCMDecrypt(passwordBytes, masterKey);
             }
 
             Passwords = new BindableCollection<PasswordModel>(dbPasswords);

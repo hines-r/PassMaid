@@ -37,9 +37,6 @@ namespace PassMaid.ViewModels
         private readonly bool _defaultNumeric = true;
         private readonly bool _defaultSpecial = true;
 
-        private byte[] Salt { get; set; }
-        private byte[] IV { get; set; }
-
         public GeneratorTabViewModel()
         {
             TabName = _TabName;
@@ -215,11 +212,10 @@ namespace PassMaid.ViewModels
         {
             if (!String.IsNullOrEmpty(Password))
             {
-                Salt = CryptoUtil.GenerateByteArray(32);
-                IV = CryptoUtil.GenerateByteArray(16);
+                byte[] passwordBytes = Convert.FromBase64String(Password);
+                byte[] masterKey = CryptoUtil.MasterKey;
 
-                string encryptedPassword = CryptoUtil.Encrypt(Password, Salt, IV);
-
+                string encryptedPassword = CryptoUtil.AES_GCMEncrypt(passwordBytes, masterKey);
                 Cipher = encryptedPassword;
             }
             else
@@ -234,11 +230,11 @@ namespace PassMaid.ViewModels
         {
             if (Cipher != null)
             {
-                if (Salt != null && IV != null)
-                {
-                    string decryptedPassword = CryptoUtil.Decrypt(Cipher, Salt, IV);
-                    Password = decryptedPassword;
-                }
+                byte[] cipherBytes = Convert.FromBase64String(Cipher);
+                byte[] masterKey = CryptoUtil.MasterKey;
+
+                string decryptedPassword = CryptoUtil.AES_GCMDecrypt(cipherBytes, masterKey);
+                Password = decryptedPassword;
             }
         }
 

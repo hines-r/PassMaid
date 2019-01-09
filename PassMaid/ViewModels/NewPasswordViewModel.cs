@@ -28,16 +28,16 @@ namespace PassMaid.ViewModels
                 return;
             }
 
-            byte[] salt = Convert.FromBase64String(SQLiteDataAccess.CurrentUser.Salt);
-            byte[] initializationVector = Convert.FromBase64String(SQLiteDataAccess.CurrentUser.IV);
             byte[] masterKey = CryptoUtil.MasterKey;
+
+            // TODO: Check if password contains non-base64 chars
 
             PasswordModel newPassword = new PasswordModel()
             {
                 Name = this.Name,
                 Website = this.Website,
                 Username = this.Username,
-                Password = CryptoUtil.Encrypt(this.Password, masterKey, initializationVector)
+                Password = CryptoUtil.AES_GCMEncrypt(Convert.FromBase64String(this.Password), masterKey)
             };
 
             // Places the new PasswordModel into the database with the encrypted password

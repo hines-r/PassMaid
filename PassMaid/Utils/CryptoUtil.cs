@@ -1,4 +1,8 @@
-﻿using PassMaid.Models;
+﻿using Org.BouncyCastle.Crypto.Engines;
+using Org.BouncyCastle.Crypto.Modes;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Security;
+using PassMaid.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +22,9 @@ namespace PassMaid.Utils
     public static class CryptoUtil
     {
         public static byte[] MasterKey { get; set; }
+
+        private const int NONCE_SIZE = 12;
+        private const string ENCRYPTION_METHOD = "AES";
 
         public static string ComputeHash(string plainText, HashType hash, byte[] salt)
         {
@@ -153,7 +160,7 @@ namespace PassMaid.Utils
             }
         }
 
-        public static string Encrypt(string clearText, byte[] key, byte[] IV)
+        public static string AES_CBCEncrypt(string cleartext, byte[] key, byte[] IV)
         {
             using (AesCryptoServiceProvider aes = new AesCryptoServiceProvider())
             {
@@ -165,14 +172,14 @@ namespace PassMaid.Utils
                 aes.Padding = PaddingMode.PKCS7;
 
                 ICryptoTransform transform = aes.CreateEncryptor();
-                byte[] encryptedBytes = transform.TransformFinalBlock(ASCIIEncoding.ASCII.GetBytes(clearText), 0, clearText.Length);
+                byte[] encryptedBytes = transform.TransformFinalBlock(ASCIIEncoding.ASCII.GetBytes(cleartext), 0, cleartext.Length);
                 string encryptedText = Convert.ToBase64String(encryptedBytes);
 
                 return encryptedText;
             }
         }
 
-        public static string Decrypt(string cipher, byte[] key, byte[] IV)
+        public static string AES_CBCDecrypt(string cipher, byte[] key, byte[] IV)
         {
             using (AesCryptoServiceProvider aes = new AesCryptoServiceProvider())
             {
@@ -190,6 +197,67 @@ namespace PassMaid.Utils
 
                 return decryptedText;
             }
+        }
+
+        public static string AES_GCMEncrypt(byte[] cleartext, byte[] keyBytes)
+        {
+            // Create a random nonce byte array
+            SecureRandom rng = new SecureRandom();
+            byte[] nonce = new byte[NONCE_SIZE];
+            rng.NextBytes(nonce);
+  
+            // Specify AES-GCM block cipher
+            var blockCipher = new GcmBlockCipher(new AesEngine());
+            var keyParam = ParameterUtilities.CreateKeyParameter("AES", keyBytes); // Use 256 bit key for AES-256
+            var cipherParams = new ParametersWithIV(keyParam, nonce);
+
+            blockCipher.Init(true, cipherParams);
+
+            // Encrypts ciphertext
+            byte[] ciphertext = new byte[blockCipher.GetOutputSize(cleartext.Length)];
+            int length = blockCipher.ProcessBytes(cleartext, 0, cleartext.Length, ciphertext, 0);
+            blockCipher.DoFinal(ciphertext, length);
+
+            // Prepends the nonce to the ciphertext (in front)
+            byte[] ciphertextWithNonce = new byte[nonce.Length + ciphertext.Length];
+            Array.Copy(nonce, 0, ciphertextWithNonce, 0, nonce.Length);
+            Array.Copy(ciphertext, 0, ciphertextWithNonce, nonce.Length, ciphertext.Length);
+
+            Console.WriteLine("Encrypting with AES-GCM...");
+            Console.WriteLine($"Nonce: {Convert.ToBase64String(nonce)}");
+            Console.WriteLine($"Ciphertext: {Convert.ToBase64String(ciphertext)}");
+            Console.WriteLine($"Nonce + Ciphertext: {Convert.ToBase64String(ciphertextWithNonce)}");
+
+            return Convert.ToBase64String(ciphertextWithNonce);
+        }
+
+        public static string AES_GCMDecrypt(byte[] cipherWithNonce, byte[] keyBytes)
+        {
+            // Gets nonce and ciphertext
+            byte[] nonce = new byte[NONCE_SIZE];
+            byte[] ciphertext = new byte[cipherWithNonce.Length - NONCE_SIZE];
+
+            Array.Copy(cipherWithNonce, 0, nonce, 0, nonce.Length);
+            Array.Copy(cipherWithNonce, nonce.Length, ciphertext, 0, ciphertext.Length);
+
+            // Specify AES-GCM block cipher
+            var blockCipher = new GcmBlockCipher(new AesEngine());
+            var keyParam = ParameterUtilities.CreateKeyParameter("AES", keyBytes);
+            var cipherParams = new ParametersWithIV(keyParam, nonce);
+
+            blockCipher.Init(false, cipherParams);
+
+            // Decrypt ciphertext
+            byte[] cleartext = new byte[blockCipher.GetOutputSize(ciphertext.Length)];
+            int length = blockCipher.ProcessBytes(ciphertext, 0, ciphertext.Length, cleartext, 0);
+            blockCipher.DoFinal(cleartext, length);
+
+            Console.WriteLine("Decrypting AES-GCM...");
+            Console.WriteLine($"Nonce: {Convert.ToBase64String(nonce)}");
+            Console.WriteLine($"Ciphertext: {Convert.ToBase64String(ciphertext)}");
+            Console.WriteLine($"Cleartext: {Convert.ToBase64String(cleartext)}");
+
+            return Convert.ToBase64String(cleartext);
         }
     }
 }

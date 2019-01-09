@@ -49,21 +49,16 @@ namespace PassMaid.ViewModels
                 return;
             }
 
-            if (SQLiteDataAccess.DoesUserExist(Username))
-            {
-                return;
-            }
+            // TODO: Check if user already exists
 
             // Checks to see if both passwords match before creating a new user
             if (newUserPassword == newUserConfirmPassword)
             {
                 byte[] masterKey = CryptoUtil.GenerateByteArray(32);
-
                 byte[] salt = CryptoUtil.GenerateByteArray(32);
-                byte[] IV = CryptoUtil.GenerateByteArray(16);
 
                 byte[] keyEncryptionKey = CryptoUtil.ComputePBKDF2Hash(newUserPassword, salt);
-                string encryptedMasterKey = CryptoUtil.Encrypt(Convert.ToBase64String(masterKey), keyEncryptionKey, IV);
+                string encryptedMasterKey = CryptoUtil.AES_GCMEncrypt(masterKey, keyEncryptionKey);
 
                 Console.WriteLine($"{Username} - Master Key: {Convert.ToBase64String(masterKey)}");
                 Console.WriteLine($"{Username} - Key Encryption Key: {Convert.ToBase64String(keyEncryptionKey)}");
@@ -73,8 +68,7 @@ namespace PassMaid.ViewModels
                 {
                     Username = Username,
                     Password = encryptedMasterKey,
-                    Salt = Convert.ToBase64String(salt),
-                    IV = Convert.ToBase64String(IV)
+                    Salt = Convert.ToBase64String(salt)
                 };
 
                 SQLiteDataAccess.CreateUser(newUser);
