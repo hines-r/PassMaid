@@ -16,6 +16,7 @@ namespace PassMaid.ViewModels
     public class NewUserViewModel : Screen
     {
         private string _username;
+        private string _credentialStatus;
 
         public SecureString SecurePassword { private get; set; }
         public SecureString SecureConfirmPassword { private get; set; }
@@ -27,6 +28,16 @@ namespace PassMaid.ViewModels
             {
                 _username = value;
                 NotifyOfPropertyChange(() => Username);
+            }
+        }
+
+        public string CredentialStatus
+        {
+            get { return _credentialStatus; }
+            set
+            {
+                _credentialStatus = value;
+                NotifyOfPropertyChange(() => CredentialStatus);
             }
         }
 
@@ -46,14 +57,14 @@ namespace PassMaid.ViewModels
             // Checks to see if input fields are empty or null
             if (String.IsNullOrEmpty(Username) || String.IsNullOrEmpty(newUserPassword) || String.IsNullOrEmpty(newUserConfirmPassword))
             {
-                // TODO: Display a notification for empty fields
+                CredentialStatus = "Please input all fields";
                 return;
             }
 
             // Check if user already exists in database
             if (SQLiteDataAccess.DoesUserExist(Username))
             {
-                // TODO: Display a notification if user already exists
+                CredentialStatus = "User already exists";
                 return;
             }
 
@@ -84,6 +95,10 @@ namespace PassMaid.ViewModels
 
                 var parentConductor = this.Parent as Conductor<Screen>;
                 parentConductor.ActivateItem(new LoginViewModel());
+            }
+            else
+            {
+                CredentialStatus = "Passwords do not match";
             }
         }
 

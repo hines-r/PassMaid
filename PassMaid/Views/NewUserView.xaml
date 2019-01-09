@@ -11,53 +11,76 @@
     FontSize="18"
     mc:Ignorable="d">
 
-    <StackPanel HorizontalAlignment="Center">
-        <TextBlock
-            Margin="25,25,25,50"
+    <Grid
+        Margin="0,0,0,25"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
             HorizontalAlignment="Center"
-            FontSize="30"
-            Text="New Account" />
+            VerticalAlignment="Center">
+            <TextBlock
+                Margin="10"
+                HorizontalAlignment="Center"
+                FontSize="35"
+                Text="Create an account" />
 
-        <TextBlock Margin="0,5" Text="Username:" />
-        <TextBox
-            Width="350"
-            Margin="0,0,0,20"
-            Controls:TextBoxHelper.IsWaitingForData="True"
-            Text="{Binding Username}" />
+            <TextBlock Margin="0,5" Text="Username:" />
+            <TextBox
+                Width="350"
+                Margin="0,0,0,20"
+                Controls:TextBoxHelper.IsWaitingForData="True"
+                Text="{Binding Username}" />
 
-        <TextBlock Margin="0,5" Text="Password:" />
-        <PasswordBox
-            Width="350"
-            MinWidth="100"
-            Margin="0,0,0,20"
-            Controls:TextBoxHelper.ClearTextButton="{Binding RelativeSource={RelativeSource Self}, Path=(Controls:TextBoxHelper.HasText), Mode=OneWay}"
-            Controls:TextBoxHelper.IsWaitingForData="True"
-            PasswordChanged="PasswordBox_PasswordChanged"
-            Style="{StaticResource MetroButtonRevealedPasswordBox}" />
+            <TextBlock Margin="0,5" Text="Password:" />
+            <PasswordBox
+                Width="350"
+                MinWidth="100"
+                Margin="0,0,0,20"
+                Controls:TextBoxHelper.ClearTextButton="{Binding RelativeSource={RelativeSource Self}, Path=(Controls:TextBoxHelper.HasText), Mode=OneWay}"
+                Controls:TextBoxHelper.IsWaitingForData="True"
+                PasswordChanged="PasswordBox_PasswordChanged"
+                Style="{StaticResource MetroButtonRevealedPasswordBox}" />
 
-        <TextBlock Margin="0,5" Text="Confirm Password:" />
-        <PasswordBox
-            Width="350"
-            MinWidth="100"
-            Margin="0,0,0,20"
-            Controls:TextBoxHelper.ClearTextButton="{Binding RelativeSource={RelativeSource Self}, Path=(Controls:TextBoxHelper.HasText), Mode=OneWay}"
-            Controls:TextBoxHelper.IsWaitingForData="True"
-            PasswordChanged="ConfirmPasswordBox_PasswordChanged"
-            Style="{StaticResource MetroButtonRevealedPasswordBox}" />
+            <TextBlock Margin="0,5" Text="Confirm Password:" />
+            <PasswordBox
+                Width="350"
+                MinWidth="100"
+                Margin="0,0,0,20"
+                Controls:TextBoxHelper.ClearTextButton="{Binding RelativeSource={RelativeSource Self}, Path=(Controls:TextBoxHelper.HasText), Mode=OneWay}"
+                Controls:TextBoxHelper.IsWaitingForData="True"
+                PasswordChanged="ConfirmPasswordBox_PasswordChanged"
+                Style="{StaticResource MetroButtonRevealedPasswordBox}" />
 
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button
-                Width="75"
-                Margin="5,0"
-                Command="{Binding CreateUserCommand}"
-                Content="Create"
-                FontSize="12" />
-            <Button
-                Width="75"
-                Margin="5,0"
-                Command="{Binding CancelCommand}"
-                Content="Cancel"
-                FontSize="12" />
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button
+                    Width="100"
+                    Height="30"
+                    Margin="5,10,5,5"
+                    Command="{Binding CreateUserCommand}"
+                    Content="Create"
+                    FontSize="12" />
+                <Button
+                    Width="100"
+                    Height="30"
+                    Margin="5,10,5,5"
+                    Command="{Binding CancelCommand}"
+                    Content="Cancel"
+                    FontSize="12" />
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
+
+        <TextBlock
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Foreground="Red"
+            Text="{Binding CredentialStatus}"
+            TextAlignment="Center" />
+    </Grid>
 </UserControl>
