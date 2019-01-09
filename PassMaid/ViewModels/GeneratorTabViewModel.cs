@@ -199,6 +199,27 @@ namespace PassMaid.ViewModels
             }
         }
 
+        private bool IsBase64(string base64String)
+        {
+            if (String.IsNullOrEmpty(base64String))
+            {
+                return false;
+            }
+
+            try
+            {
+                Convert.FromBase64String(base64String);
+                return true;
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("String is not base64!");
+            }
+
+            return false;
+        }
+
         public ICommand GeneratePasswordCommand => new RelayCommand(ExecuteGeneratePassword);
 
         public void ExecuteGeneratePassword(object o)
@@ -230,11 +251,26 @@ namespace PassMaid.ViewModels
         {
             if (Cipher != null)
             {
-                byte[] cipherBytes = Convert.FromBase64String(Cipher);
-                byte[] masterKey = CryptoUtil.MasterKey;
+                if (IsBase64(Cipher))
+                {
+                    try
+                    {
+                        byte[] cipherBytes = Convert.FromBase64String(Cipher);
+                        byte[] masterKey = CryptoUtil.MasterKey;
 
-                string decryptedPassword = ASCIIEncoding.ASCII.GetString(CryptoUtil.AES_GCMDecrypt(cipherBytes, masterKey));
-                Password = decryptedPassword;
+                        string decryptedPassword = ASCIIEncoding.ASCII.GetString(CryptoUtil.AES_GCMDecrypt(cipherBytes, masterKey));
+                        Password = decryptedPassword;
+                    }
+                    catch (Exception e)
+                    {
+                        Cipher = "The cipher was invalid";
+                        Console.WriteLine(e);
+                    }
+                }
+                else
+                {
+                    Cipher = "Please enter a valid base64 string";
+                }
             }
         }
 
@@ -268,15 +304,29 @@ namespace PassMaid.ViewModels
                 return;
             }
 
-            bool isCorrect = CryptoUtil.CompareHash(Password, Hash, SelectedHashType);
-
-            if (isCorrect)
+            if (!IsBase64(Hash))
             {
-                Status = "Correct";
+                Status = "Hash is not a valid base64 string!";
+                return;
             }
-            else
+
+            try
             {
-                Status = "Incorrect";
+                bool isCorrect = CryptoUtil.CompareHash(Password, Hash, SelectedHashType);
+
+                if (isCorrect)
+                {
+                    Status = "Correct";
+                }
+                else
+                {
+                    Status = "Incorrect";
+                }
+            }
+            catch (Exception e)
+            {
+                Status = "The hash provided was invalid!";
+                Console.WriteLine(e);
             }
         }
 
