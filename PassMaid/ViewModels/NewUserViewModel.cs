@@ -46,10 +46,16 @@ namespace PassMaid.ViewModels
             // Checks to see if input fields are empty or null
             if (String.IsNullOrEmpty(Username) || String.IsNullOrEmpty(newUserPassword) || String.IsNullOrEmpty(newUserConfirmPassword))
             {
+                // TODO: Display a notification for empty fields
                 return;
             }
 
-            // TODO: Check if user already exists
+            // Check if user already exists in database
+            if (SQLiteDataAccess.DoesUserExist(Username))
+            {
+                // TODO: Display a notification if user already exists
+                return;
+            }
 
             // Checks to see if both passwords match before creating a new user
             if (newUserPassword == newUserConfirmPassword)

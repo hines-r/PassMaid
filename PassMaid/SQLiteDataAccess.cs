@@ -31,16 +31,25 @@ namespace PassMaid
 
         public static bool DoesUserExist(string username)
         {
-            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+            using (SQLiteConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                var dbUser = cnn.Query<UserModel>($"SELECT * FROM User WHERE Username = {username}").FirstOrDefault();
+                cnn.Open();
 
-                if (dbUser != null)
+                using (IDbCommand cmd = new SQLiteCommand(cnn))
                 {
-                    return true;
-                }
+                    cmd.CommandText = $"SELECT COUNT(*) FROM User WHERE Username = '{username}'";
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
 
-                return false;
+                    cnn.Close();
+
+                    // Return true if the count exceeds 0
+                    if (count != 0)
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
             }
         }
 
