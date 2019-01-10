@@ -123,7 +123,7 @@ namespace PassMaid
                     "Website = @Website, " +
                     "Username = @Username, " +
                     "Password = @Password " +
-                    "WHERE Id = @Id", password);
+                    "WHERE PasswordId = @PasswordId", password);
             }
         }
 
