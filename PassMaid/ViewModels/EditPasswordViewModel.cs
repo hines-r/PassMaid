@@ -23,6 +23,30 @@ namespace PassMaid.ViewModels
             }
         }
 
+        public ICommand ToggleVisibilityCommand => new RelayCommand(ExecuteToggleVisibility);
+
+        public void ExecuteToggleVisibility(object o)
+        {
+            // TODO: Implement password mask (using PasswordBox/SecureString)
+        }
+
+        public ICommand GeneratePasswordCommand => new RelayCommand(ExecuteGeneratePassword);
+
+        public void ExecuteGeneratePassword(object o)
+        {
+            // TODO: Ask user if they want to replace current password with generated one
+            // TODO: Create custom dialog to customize password generation
+
+            int length = 32;
+            bool includeLower = true;
+            bool includeUpper = true;
+            bool includeNumeric = true;
+            bool includeSpecial = true;
+
+            string generatedPass = PasswordGenerator.GeneratePassword(length, includeLower, includeUpper, includeNumeric, includeSpecial);
+            Password = generatedPass;
+        }
+
         public ICommand SaveCommand => new RelayCommand(ExecuteSave);
 
         public void ExecuteSave(object o)
