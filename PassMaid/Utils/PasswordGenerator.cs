@@ -9,42 +9,42 @@ namespace PassMaid.Utils
     public static class PasswordGenerator
     {
         // Available characters for password generation
-        private const string LowercaseChars = "abcdefghijklmnopqrstuvwxyz";
-        private const string UppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        private const string NumericChars = "0123456789";
-        private const string SpecialChars = "!@#$%^&*";
+        private const string LOWERCASE_CHARS = "abcdefghijklmnopqrstuvwxyz";
+        private const string UPPERCASE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private const string NUMBER_CHARS = "0123456789";
+        private const string SPECIAL_CHARS = "!@#$%^&*";
 
         // Min and max password length
-        private const int MinLength = 8;
-        private const int MaxLength = 128;
+        private const int MIN_LENGTH = 8;
+        private const int MAX_LENGTH = 128;
 
         public static string GeneratePassword(int length, bool includeLowercase, bool includeUppercase, bool includeNumeric, bool includeSpecial)
         {
-            if (length < MinLength || length > MaxLength)
+            if (length < MIN_LENGTH || length > MAX_LENGTH)
             {
-                return $"Password must be between {MinLength} and {MaxLength} characters!";
+                return $"Password must be between {MIN_LENGTH} and {MAX_LENGTH} characters!";
             }
 
             string chars = "";
 
             if (includeLowercase)
             {
-                chars += LowercaseChars;
+                chars += LOWERCASE_CHARS;
             }
 
             if (includeUppercase)
             {
-                chars += UppercaseChars;
+                chars += UPPERCASE_CHARS;
             }
 
             if (includeNumeric)
             {
-                chars += NumericChars;
+                chars += NUMBER_CHARS;
             }
 
             if (includeSpecial)
             {
-                chars += SpecialChars;
+                chars += SPECIAL_CHARS;
             }
             
             if (String.IsNullOrEmpty(chars))
