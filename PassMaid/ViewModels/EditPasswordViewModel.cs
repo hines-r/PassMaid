@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using PassMaid.Models;
+using PassMaid.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,9 +30,17 @@ namespace PassMaid.ViewModels
             VaultVM.SelectedPasswordModel.Name = this.Name;
             VaultVM.SelectedPasswordModel.Website = this.Website;
             VaultVM.SelectedPasswordModel.Username = this.Username;
-            VaultVM.SelectedPasswordModel.Password = this.Password;
 
+            // Encrypts and stores the password in the database
+            byte[] passwordBytes = ASCIIEncoding.ASCII.GetBytes(this.Password);
+            byte[] masterKey = CryptoUtil.MasterKey;
+            byte[] encryptedPassword = CryptoUtil.AES_GCMEncrypt(passwordBytes, masterKey);
+
+            VaultVM.SelectedPasswordModel.Password = Convert.ToBase64String(encryptedPassword);
             SQLiteDataAccess.UpdatePassword(VaultVM.SelectedPasswordModel);
+
+            // Updates password in bindable collection
+            VaultVM.SelectedPasswordModel.Password = this.Password;
             VaultVM.PassScreenType = new DisplayPasswordViewModel(SelectedPassword, VaultVM);
         }
 
