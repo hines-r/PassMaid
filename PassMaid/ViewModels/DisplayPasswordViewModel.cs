@@ -48,6 +48,16 @@ namespace PassMaid.ViewModels
             }
         }
 
+        public ICommand CopyWebsiteCommand => new RelayCommand(ExecuteCopyWebsite);
+
+        public void ExecuteCopyWebsite(object o)
+        {
+            if (!String.IsNullOrEmpty(Website))
+            {
+                Clipboard.SetText(Website);
+            }
+        }
+
         public ICommand CopyUsernameCommand => new RelayCommand(ExecuteCopyUsername);
 
         public void ExecuteCopyUsername(object o)
