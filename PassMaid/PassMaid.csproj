@@ -106,6 +106,7 @@
     <Compile Include="Utils\PasswordGenerator.cs" />
     <Compile Include="ViewModels\DisplayPasswordViewModel.cs" />
     <Compile Include="ViewModels\EditPasswordViewModel.cs" />
+    <Compile Include="ViewModels\GeneratorDialogViewModel.cs" />
     <Compile Include="ViewModels\GeneratorTabViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\NewPasswordViewModel.cs" />
@@ -120,6 +121,9 @@
     </Compile>
     <Compile Include="Views\EditPasswordView.xaml.cs">
       <DependentUpon>EditPasswordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GeneratorDialogView.xaml.cs">
+      <DependentUpon>GeneratorDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GeneratorTabView.xaml.cs">
       <DependentUpon>GeneratorTabView.xaml</DependentUpon>
@@ -189,6 +193,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EditPasswordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GeneratorDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

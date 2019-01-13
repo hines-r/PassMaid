@@ -1,6 +1,8 @@
 ﻿using Caliburn.Micro;
+using MahApps.Metro.Controls.Dialogs;
 using PassMaid.Models;
 using PassMaid.Utils;
+using PassMaid.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,10 @@ namespace PassMaid.ViewModels
 {
     public class EditPasswordViewModel : PasswordScreen
     {
+        public IDialogCoordinator dialogCoordinator;
+
+        public GeneratorDialogView GeneratorDialog { get; set; }
+
         public EditPasswordViewModel(PasswordModel _selectedPassword, VaultViewModel _vaultViewModel) : base(_selectedPassword, _vaultViewModel)
         {
             if (SelectedPassword != null)
@@ -21,6 +27,8 @@ namespace PassMaid.ViewModels
                 this.Username = SelectedPassword.Username;
                 this.Password = SelectedPassword.Password;
             }
+
+            dialogCoordinator = DialogCoordinator.Instance;
         }
 
         public ICommand ToggleVisibilityCommand => new RelayCommand(ExecuteToggleVisibility);
@@ -32,19 +40,15 @@ namespace PassMaid.ViewModels
 
         public ICommand GeneratePasswordCommand => new RelayCommand(ExecuteGeneratePassword);
 
-        public void ExecuteGeneratePassword(object o)
+        public async void ExecuteGeneratePassword(object o)
         {
-            // TODO: Ask user if they want to replace current password with generated one
-            // TODO: Create custom dialog to customize password generation
+            var dialogViewModel = new GeneratorDialogViewModel(this);
+            GeneratorDialog = new GeneratorDialogView()
+            {
+                DataContext = dialogViewModel
+            };
 
-            int length = 32;
-            bool includeLower = true;
-            bool includeUpper = true;
-            bool includeNumeric = true;
-            bool includeSpecial = true;
-
-            string generatedPass = PasswordGenerator.GeneratePassword(length, includeLower, includeUpper, includeNumeric, includeSpecial);
-            Password = generatedPass;
+            await dialogCoordinator.ShowMetroDialogAsync(this, GeneratorDialog);
         }
 
         public ICommand SaveCommand => new RelayCommand(ExecuteSave);
