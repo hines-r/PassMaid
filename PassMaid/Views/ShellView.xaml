@@ -13,6 +13,7 @@
     MinHeight="500"
     FontSize="14"
     GlowBrush="{DynamicResource AccentColorBrush}"
+    TitleCaps="False"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
