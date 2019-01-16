@@ -17,8 +17,6 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
-    <Grid>
-        <!--  Displays currently active item  -->
-        <ContentControl x:Name="ActiveItem" />
-    </Grid>
+    <ContentControl x:Name="ActiveItem" />
+
 </Controls:MetroWindow>
