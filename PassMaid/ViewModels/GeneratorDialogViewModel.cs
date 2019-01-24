@@ -81,7 +81,7 @@ namespace PassMaid.ViewModels
                 NotifyOfPropertyChange(() => GeneratedPassword);
             }
         }
-        
+
         public bool IncludeNumeric
         {
             get { return _includeNumeric; }
@@ -113,6 +113,14 @@ namespace PassMaid.ViewModels
             GeneratedPassword = PasswordGenerator.GeneratePassword(Length, IncludeLowercase, IncludeUppercase, IncludeNumeric, IncludeSpecial);
         }
 
+        private bool CheckValidGeneration()
+        {
+            // Checks if all toggles are false ie. cannot generate a password with no toggles selected
+            // True = valid
+            // False = not valid
+            return !(IncludeLowercase == false && IncludeUppercase == false && IncludeNumeric == false && IncludeSpecial == false);
+        }
+
         public ICommand GeneratePasswordCommand => new RelayCommand(ExecuteGeneratePassword);
 
         public void ExecuteGeneratePassword(object o)
@@ -133,9 +141,12 @@ namespace PassMaid.ViewModels
         public ICommand UsePasswordCommand => new RelayCommand(ExecuteUsePassword);
 
         public void ExecuteUsePassword(object o)
-        {         
-            viewModel.Password = GeneratedPassword;
-            CloseDialog();
+        {
+            if (CheckValidGeneration())
+            {
+                viewModel.Password = GeneratedPassword;
+                CloseDialog();
+            }
         }
 
         public ICommand CancelCommand => new RelayCommand(ExecuteCancel);
