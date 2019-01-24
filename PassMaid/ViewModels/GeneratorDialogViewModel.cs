@@ -20,6 +20,7 @@ namespace PassMaid.ViewModels
         private bool _includeUppercase;
         private bool _includeNumeric;
         private bool _includeSpecial;
+        private bool _canGenerate;
 
         public GeneratorDialogViewModel(BaseMetroDialog dialogView, PasswordScreen viewModel) : base(dialogView, viewModel)
         {
@@ -31,6 +32,7 @@ namespace PassMaid.ViewModels
             IncludeSpecial = true;
 
             GenerateRandomPassword();
+            CheckValidGeneration();
         }
 
         public string GeneratedPassword
@@ -66,6 +68,8 @@ namespace PassMaid.ViewModels
 
                 GenerateRandomPassword();
                 NotifyOfPropertyChange(() => GeneratedPassword);
+
+                CheckValidGeneration();
             }
         }
 
@@ -79,6 +83,8 @@ namespace PassMaid.ViewModels
 
                 GenerateRandomPassword();
                 NotifyOfPropertyChange(() => GeneratedPassword);
+
+                CheckValidGeneration();
             }
         }
 
@@ -92,6 +98,8 @@ namespace PassMaid.ViewModels
 
                 GenerateRandomPassword();
                 NotifyOfPropertyChange(() => GeneratedPassword);
+
+                CheckValidGeneration();
             }
         }
 
@@ -105,6 +113,18 @@ namespace PassMaid.ViewModels
 
                 GenerateRandomPassword();
                 NotifyOfPropertyChange(() => GeneratedPassword);
+
+                CheckValidGeneration();
+            }
+        }
+
+        public bool CanGenerate
+        {
+            get { return _canGenerate; }
+            set
+            {
+                _canGenerate = value;
+                NotifyOfPropertyChange(() => CanGenerate);
             }
         }
 
@@ -113,12 +133,12 @@ namespace PassMaid.ViewModels
             GeneratedPassword = PasswordGenerator.GeneratePassword(Length, IncludeLowercase, IncludeUppercase, IncludeNumeric, IncludeSpecial);
         }
 
-        private bool CheckValidGeneration()
+        private void CheckValidGeneration()
         {
             // Checks if all toggles are false ie. cannot generate a password with no toggles selected
             // True = valid
             // False = not valid
-            return !(IncludeLowercase == false && IncludeUppercase == false && IncludeNumeric == false && IncludeSpecial == false);
+            CanGenerate = !(IncludeLowercase == false && IncludeUppercase == false && IncludeNumeric == false && IncludeSpecial == false);
         }
 
         public ICommand GeneratePasswordCommand => new RelayCommand(ExecuteGeneratePassword);
@@ -142,7 +162,7 @@ namespace PassMaid.ViewModels
 
         public void ExecuteUsePassword(object o)
         {
-            if (CheckValidGeneration())
+            if (CanGenerate)
             {
                 viewModel.Password = GeneratedPassword;
                 CloseDialog();
