@@ -128,8 +128,8 @@
                 Width="100"
                 Margin="5,25,5,25"
                 Command="{Binding UsePasswordCommand}"
-                Content="Use Password" 
-                IsEnabled="{Binding CanGenerate}"/>
+                Content="Use Password"
+                IsEnabled="{Binding CanGenerate}" />
             <Button
                 Width="100"
                 Margin="5,25,5,25"
