@@ -14,10 +14,6 @@ namespace PassMaid.ViewModels
 {
     public class EditPasswordViewModel : PasswordScreen
     {
-        public IDialogCoordinator dialogCoordinator;
-
-        public GeneratorDialogView GeneratorDialog { get; set; }
-
         public EditPasswordViewModel(PasswordModel _selectedPassword, VaultViewModel _vaultViewModel) : base(_selectedPassword, _vaultViewModel)
         {
             if (SelectedPassword != null)
@@ -42,13 +38,12 @@ namespace PassMaid.ViewModels
 
         public async void ExecuteGeneratePassword(object o)
         {
-            var dialogViewModel = new GeneratorDialogViewModel(this);
-            GeneratorDialog = new GeneratorDialogView()
-            {
-                DataContext = dialogViewModel
-            };
+            var generatorDialog = new GeneratorDialogView();
+            var dialogViewModel = new GeneratorDialogViewModel(generatorDialog, this);
 
-            await dialogCoordinator.ShowMetroDialogAsync(this, GeneratorDialog);
+            generatorDialog.DataContext = dialogViewModel; // Sets datacontext to the dialog view model
+
+            await dialogCoordinator.ShowMetroDialogAsync(this, generatorDialog);
         }
 
         public ICommand SaveCommand => new RelayCommand(ExecuteSave);

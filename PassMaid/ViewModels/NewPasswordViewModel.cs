@@ -1,6 +1,8 @@
 ﻿using Caliburn.Micro;
+using MahApps.Metro.Controls.Dialogs;
 using PassMaid.Models;
 using PassMaid.Utils;
+using PassMaid.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +15,26 @@ namespace PassMaid.ViewModels
 {
     public class NewPasswordViewModel : PasswordScreen
     {
-        public NewPasswordViewModel(PasswordModel _selectedPassword, VaultViewModel _vaultViewModel) : base(_selectedPassword, _vaultViewModel)
+        public NewPasswordViewModel(PasswordModel _selectedPassword, VaultViewModel _vaultViewModel) : base(_selectedPassword, _vaultViewModel) { }
+
+        public ICommand ToggleVisibilityCommand => new RelayCommand(ExecuteToggleVisibility);
+        
+        public void ExecuteToggleVisibility(object o)
         {
-            
+            Console.WriteLine("WIP: Password masking");
+            // TODO: Implement password mask (using PasswordBox/SecureString)
+        }
+
+        public ICommand GeneratePasswordCommand => new RelayCommand(ExecuteGeneratePassword);
+
+        public async void ExecuteGeneratePassword(object o)
+        {
+            var generatorDialog = new GeneratorDialogView();
+            var dialogViewModel = new GeneratorDialogViewModel(generatorDialog, this);
+
+            generatorDialog.DataContext = dialogViewModel; // Sets datacontext to the dialog view model
+
+            await dialogCoordinator.ShowMetroDialogAsync(this, generatorDialog);
         }
 
         public ICommand SaveCommand => new RelayCommand(ExecuteSave);

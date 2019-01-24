@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using MahApps.Metro.Controls.Dialogs;
 using PassMaid.Models;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace PassMaid.ViewModels
 {
     public abstract class PasswordScreen : Screen
     {
+        public IDialogCoordinator dialogCoordinator; // Password screens can contain a dialog
+
         private string _name;
         private string _website;
         private string _username;
@@ -21,6 +24,8 @@ namespace PassMaid.ViewModels
         {
             SelectedPassword = _selectedPassword;
             VaultVM = _vaultViewModel;
+
+            dialogCoordinator = DialogCoordinator.Instance;
         }
 
         public VaultViewModel VaultVM { get; private set; }

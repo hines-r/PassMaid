@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using MahApps.Metro.Controls.Dialogs;
 using PassMaid.Utils;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,8 @@ using System.Windows.Input;
 
 namespace PassMaid.ViewModels
 {
-    public class GeneratorDialogViewModel : Screen
+    public class GeneratorDialogViewModel : DialogScreen
     {
-        private EditPasswordViewModel editVM;
-
         private string _generatedPassword;
 
         private int _length;
@@ -22,10 +21,8 @@ namespace PassMaid.ViewModels
         private bool _includeNumeric;
         private bool _includeSpecial;
 
-        public GeneratorDialogViewModel(EditPasswordViewModel editVM)
+        public GeneratorDialogViewModel(BaseMetroDialog dialogView, PasswordScreen viewModel) : base(dialogView, viewModel)
         {
-            this.editVM = editVM;
-            
             // Sets default values
             Length = 32;
             IncludeLowercase = true;
@@ -137,7 +134,7 @@ namespace PassMaid.ViewModels
 
         public void ExecuteUsePassword(object o)
         {         
-            editVM.Password = GeneratedPassword;
+            viewModel.Password = GeneratedPassword;
             CloseDialog();
         }
 
@@ -146,14 +143,6 @@ namespace PassMaid.ViewModels
         public void ExecuteCancel(object o)
         {
             CloseDialog();
-        }
-
-        private async void CloseDialog()
-        {
-            var dc = editVM.dialogCoordinator;
-            var dialog = editVM.GeneratorDialog;
-
-            await dc.HideMetroDialogAsync(editVM, dialog);
         }
     }
 }

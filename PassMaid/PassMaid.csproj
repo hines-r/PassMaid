@@ -104,6 +104,7 @@
     <Compile Include="SecureStringExtension.cs" />
     <Compile Include="Utils\CryptoUtil.cs" />
     <Compile Include="Utils\PasswordGenerator.cs" />
+    <Compile Include="ViewModels\DialogScreen.cs" />
     <Compile Include="ViewModels\DisplayPasswordViewModel.cs" />
     <Compile Include="ViewModels\EditPasswordViewModel.cs" />
     <Compile Include="ViewModels\GeneratorDialogViewModel.cs" />
