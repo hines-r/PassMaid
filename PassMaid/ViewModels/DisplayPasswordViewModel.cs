@@ -72,11 +72,14 @@ namespace PassMaid.ViewModels
 
         public void ExecuteCopyPassword(object o)
         {
-            string passwordToCopy = SelectedPassword.Password;
-
-            if (!String.IsNullOrEmpty(passwordToCopy))
+            if (SelectedPassword != null)
             {
-                Clipboard.SetText(passwordToCopy);
+                string passwordToCopy = SelectedPassword.Password;
+
+                if (!String.IsNullOrEmpty(passwordToCopy))
+                {
+                    Clipboard.SetText(passwordToCopy);
+                }
             }
         }
 
@@ -84,15 +87,18 @@ namespace PassMaid.ViewModels
 
         public void ExecuteToggleVisibility(object o)
         {
-            IsVisible = !IsVisible; // Sets boolean opposite of what it was ex. false turns to true
+            if (SelectedPassword != null)
+            {
+                IsVisible = !IsVisible; // Sets boolean opposite of what it was ex. false turns to true
 
-            if (IsVisible)
-            {
-                Password = SelectedPassword.Password;
-            }
-            else
-            {
-                Password = HiddenPassword;
+                if (IsVisible)
+                {
+                    Password = SelectedPassword.Password;
+                }
+                else
+                {
+                    Password = HiddenPassword;
+                }
             }
         }
     }
