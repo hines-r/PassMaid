@@ -29,15 +29,16 @@ namespace PassMaid
             }
         }
 
-        public static bool DoesUserExist(string username)
+        public static bool DoesUserExist(UserModel user)
         {
             using (SQLiteConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
                 cnn.Open();
 
-                using (IDbCommand cmd = new SQLiteCommand(cnn))
+                using (var cmd = cnn.CreateCommand())
                 {
-                    cmd.CommandText = $"SELECT COUNT(*) FROM User WHERE Username = '{username}'";
+                    cmd.Parameters.AddWithValue("Username", user);
+                    cmd.CommandText = $"SELECT COUNT(*) FROM User WHERE Username = @Username";
                     int count = Convert.ToInt32(cmd.ExecuteScalar());
 
                     cnn.Close();
@@ -99,7 +100,12 @@ namespace PassMaid
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
-                var output = cnn.Query<PasswordModel>($"SELECT * FROM Password WHERE UserId = {CurrentUser.UserId}", new DynamicParameters());
+                var parameters = new Dictionary<string, object>
+                {
+                    { "UserId", CurrentUser.UserId }
+                };
+
+                var output = cnn.Query<PasswordModel>($"SELECT * FROM Password WHERE UserId = @UserId", parameters);
                 return output.ToList();
             }
         }
@@ -108,9 +114,18 @@ namespace PassMaid
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
             {
+                var parameters = new Dictionary<string, object>
+                {
+                    { "UserId", CurrentUser.UserId },
+                    { "Name", password.Name },
+                    { "Website", password.Website },
+                    { "Username", password.Username },
+                    { "Password", password.Password }
+                };
+
                 cnn.Execute("INSERT INTO Password " +
                     "(UserId, Name, Website, Username, Password) " +
-                    $"VALUES ({CurrentUser.UserId}, @Name, @Website, @Username, @Password)", password);
+                    $"VALUES (@UserId, @Name, @Website, @Username, @Password)", parameters);
             }
         }
 

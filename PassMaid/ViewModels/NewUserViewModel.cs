@@ -45,6 +45,11 @@ namespace PassMaid.ViewModels
 
         public void ExecuteCreateUser(object o)
         {
+            UserModel newUser = new UserModel
+            {
+                Username = this.Username
+            };
+
             string newUserPassword = null;
             string newUserConfirmPassword = null;
 
@@ -55,14 +60,14 @@ namespace PassMaid.ViewModels
             }
 
             // Checks to see if input fields are empty or null
-            if (String.IsNullOrEmpty(Username) || String.IsNullOrEmpty(newUserPassword) || String.IsNullOrEmpty(newUserConfirmPassword))
+            if (String.IsNullOrEmpty(newUser.Username) || String.IsNullOrEmpty(newUserPassword) || String.IsNullOrEmpty(newUserConfirmPassword))
             {
                 CredentialStatus = "Please input all fields";
                 return;
             }
 
             // Check if user already exists in database
-            if (SQLiteDataAccess.DoesUserExist(Username))
+            if (SQLiteDataAccess.DoesUserExist(newUser))
             {
                 CredentialStatus = "User already exists";
                 return;
@@ -80,17 +85,15 @@ namespace PassMaid.ViewModels
                 // Encrypts the master key using the Key Encryption Key and converts it to a base64 string for storage
                 string encryptedMasterKey = Convert.ToBase64String(CryptoUtil.AES_GCMEncrypt(masterKey, keyEncryptionKey));
 
-                Console.WriteLine($"{Username} - Master Key: {Convert.ToBase64String(masterKey)}");
-                Console.WriteLine($"{Username} - Key Encryption Key: {Convert.ToBase64String(keyEncryptionKey)}");
-                Console.WriteLine($"{Username} - Encrypted Master Key: {encryptedMasterKey}");
+                // Sets the encrypted password and the salt for the new user
+                newUser.Password = encryptedMasterKey;
+                newUser.Salt = Convert.ToBase64String(salt);
 
-                UserModel newUser = new UserModel
-                {
-                    Username = Username,
-                    Password = encryptedMasterKey,
-                    Salt = Convert.ToBase64String(salt)
-                };
+                Console.WriteLine($"{newUser.Username} - Master Key: {Convert.ToBase64String(masterKey)}");
+                Console.WriteLine($"{newUser.Username} - Key Encryption Key: {Convert.ToBase64String(keyEncryptionKey)}");
+                Console.WriteLine($"{newUser.Username} - Encrypted Master Key: {encryptedMasterKey}");
 
+                // Creates the new user in the database
                 SQLiteDataAccess.CreateUser(newUser);
 
                 var parentConductor = this.Parent as Conductor<Screen>;
