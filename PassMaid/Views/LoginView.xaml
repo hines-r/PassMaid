@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:local="clr-namespace:PassMaid.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
@@ -52,7 +53,13 @@
                 Controls:TextBoxHelper.ClearTextButton="{Binding RelativeSource={RelativeSource Self}, Path=(Controls:TextBoxHelper.HasText), Mode=OneWay}"
                 Controls:TextBoxHelper.IsWaitingForData="True"
                 PasswordChanged="PasswordBox_PasswordChanged"
-                Style="{StaticResource MetroButtonRevealedPasswordBox}" />
+                Style="{StaticResource MetroButtonRevealedPasswordBox}">
+
+                <PasswordBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding LoginCommand}" />
+                </PasswordBox.InputBindings>
+
+            </PasswordBox>
 
             <Button
                 Width="100"
