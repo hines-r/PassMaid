@@ -208,7 +208,7 @@ namespace PassMaid.Utils
   
             // Specify AES-GCM block cipher
             var blockCipher = new GcmBlockCipher(new AesEngine());
-            var keyParam = ParameterUtilities.CreateKeyParameter("AES", keyBytes); // Use 256 bit key for AES-256
+            var keyParam = ParameterUtilities.CreateKeyParameter(ENCRYPTION_METHOD, keyBytes); // Use 256 bit key for AES-256
             var cipherParams = new ParametersWithIV(keyParam, nonce);
 
             blockCipher.Init(true, cipherParams);
@@ -237,7 +237,7 @@ namespace PassMaid.Utils
 
             // Specify AES-GCM block cipher
             var blockCipher = new GcmBlockCipher(new AesEngine());
-            var keyParam = ParameterUtilities.CreateKeyParameter("AES", keyBytes);
+            var keyParam = ParameterUtilities.CreateKeyParameter(ENCRYPTION_METHOD, keyBytes);
             var cipherParams = new ParametersWithIV(keyParam, nonce);
 
             blockCipher.Init(false, cipherParams);
