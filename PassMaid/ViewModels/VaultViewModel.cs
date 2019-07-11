@@ -61,6 +61,12 @@ namespace PassMaid.ViewModels
             get { return _selectedPasswordModel; }
             set
             {
+                // Will not change the selected password during an edit
+                if (PassScreenType is EditPasswordViewModel)
+                {
+                    return;
+                }
+
                 _selectedPasswordModel = value;
                 NotifyOfPropertyChange(() => SelectedPasswordModel);
             }
