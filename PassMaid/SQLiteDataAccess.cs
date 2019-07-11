@@ -38,7 +38,7 @@ namespace PassMaid
                 using (var cmd = cnn.CreateCommand())
                 {
                     cmd.Parameters.AddWithValue("Username", user);
-                    cmd.CommandText = $"SELECT COUNT(*) FROM User WHERE Username = @Username";
+                    cmd.CommandText = "SELECT COUNT(*) FROM User WHERE Username = @Username";
                     int count = Convert.ToInt32(cmd.ExecuteScalar());
 
                     cnn.Close();
@@ -105,7 +105,7 @@ namespace PassMaid
                     { "UserId", CurrentUser.UserId }
                 };
 
-                var output = cnn.Query<PasswordModel>($"SELECT * FROM Password WHERE UserId = @UserId", parameters);
+                var output = cnn.Query<PasswordModel>("SELECT * FROM Password WHERE UserId = @UserId", parameters);
                 return output.ToList();
             }
         }
@@ -125,7 +125,7 @@ namespace PassMaid
 
                 cnn.Execute("INSERT INTO Password " +
                     "(UserId, Name, Website, Username, Password) " +
-                    $"VALUES (@UserId, @Name, @Website, @Username, @Password)", parameters);
+                    "VALUES (@UserId, @Name, @Website, @Username, @Password)", parameters);
             }
         }
 
