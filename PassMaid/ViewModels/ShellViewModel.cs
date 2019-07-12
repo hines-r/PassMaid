@@ -11,6 +11,8 @@ namespace PassMaid.ViewModels
 {
     public class ShellViewModel : Conductor<Screen>
     {
+        private bool _isSignedIn;
+
         public ShellViewModel()
         {
             Init();
@@ -20,6 +22,28 @@ namespace PassMaid.ViewModels
         {
             // Sets default view when starting the program to the login view
             ActivateItem(new LoginViewModel());
+        }
+
+        public bool IsSignedIn
+        {
+            get { return _isSignedIn; }
+            set
+            {
+                _isSignedIn = value;
+                NotifyOfPropertyChange(() => IsSignedIn);
+            }
+        }
+
+        public ICommand SignOutCommand => new RelayCommand(ExecuteSignOut);
+
+        private void ExecuteSignOut(object o)
+        {
+            // Reset the view back to the login
+            ActivateItem(new LoginViewModel());
+
+            // Logs the current user out
+            SQLiteDataAccess.CurrentUser = null;
+            IsSignedIn = false;
         }
     }
 }

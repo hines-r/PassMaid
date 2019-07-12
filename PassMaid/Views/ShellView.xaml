@@ -17,6 +17,19 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Window.Resources>
+
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button
+                Command="{Binding SignOutCommand}"
+                Content="sign out"
+                Visibility="{Binding IsSignedIn, Converter={StaticResource BoolToVis}}" />
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+
     <ContentControl x:Name="ActiveItem" />
 
 </Controls:MetroWindow>

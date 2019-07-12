@@ -67,8 +67,9 @@ namespace PassMaid.ViewModels
 
             if (SQLiteDataAccess.AuthenticateUser(user))
             {
-                var parentConductor = this.Parent as Conductor<Screen>; // Gets parent conductor (ShellViewModel)
+                var parentConductor = this.Parent as ShellViewModel; // Gets parent conductor (ShellViewModel)
                 parentConductor.ActivateItem(new TabViewModel()); // Sets new active item for ContentControl within the shell view
+                parentConductor.IsSignedIn = true;
             }
             else
             {
